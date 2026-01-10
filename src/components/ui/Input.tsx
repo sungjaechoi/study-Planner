@@ -76,3 +76,6 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 );
 
 Select.displayName = "Select";
+
+// Re-export TimeSelect for convenience
+export { TimeSelect } from './TimeSelect';

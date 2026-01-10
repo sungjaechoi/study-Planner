@@ -135,6 +135,7 @@ export const usePlannerStore = create<PlannerState>((set, get) => ({
     try {
       await api.deleteBlock(id);
       await get().fetchDayData();
+      set({ isFormModalOpen: false, editingBlock: null });
     } catch (err) {
       set({ error: err instanceof Error ? err.message : 'Failed to delete block' });
       throw err;

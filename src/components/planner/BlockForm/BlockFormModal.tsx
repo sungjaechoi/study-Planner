@@ -4,8 +4,7 @@ import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { Modal } from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
-import { Input, Select } from '@/components/ui/Input';
-import { minutesToTime, timeToMinutes, snapTo15Minutes } from '@/lib/utils/time';
+import { Input, Select, TimeSelect } from '@/components/ui/Input';
 import type { BlockType, CreateBlockRequest, UpdateBlockRequest } from '@/types';
 
 interface Block {
@@ -50,8 +49,8 @@ export function BlockFormModal({
   const [note, setNote] = useState('');
   const [subjectId, setSubjectId] = useState('');
   const [isAllDay, setIsAllDay] = useState(false);
-  const [startTime, setStartTime] = useState('09:00');
-  const [endTime, setEndTime] = useState('10:00');
+  const [startMin, setStartMin] = useState(540);  // 09:00
+  const [endMin, setEndMin] = useState(600);      // 10:00
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
@@ -63,19 +62,15 @@ export function BlockFormModal({
       setNote(editingBlock.note || '');
       setSubjectId(editingBlock.subject_id || '');
       setIsAllDay(editingBlock.is_all_day);
-      if (editingBlock.start_min !== null) {
-        setStartTime(minutesToTime(editingBlock.start_min));
-      }
-      if (editingBlock.end_min !== null) {
-        setEndTime(minutesToTime(editingBlock.end_min));
-      }
+      setStartMin(editingBlock.start_min ?? 540);
+      setEndMin(editingBlock.end_min ?? 600);
     } else {
       setTitle('');
       setNote('');
       setSubjectId('');
       setIsAllDay(false);
-      setStartTime('09:00');
-      setEndTime('10:00');
+      setStartMin(540);
+      setEndMin(600);
     }
     setError('');
   }, [editingBlock, isOpen]);
@@ -88,9 +83,6 @@ export function BlockFormModal({
       setError('제목을 입력해주세요');
       return;
     }
-
-    const startMin = snapTo15Minutes(timeToMinutes(startTime));
-    const endMin = snapTo15Minutes(timeToMinutes(endTime));
 
     if (!isAllDay && startMin >= endMin) {
       setError('종료 시간은 시작 시간 이후여야 합니다');
@@ -200,19 +192,19 @@ export function BlockFormModal({
 
         {!isAllDay && (
           <div className="grid grid-cols-2 gap-4">
-            <Input
+            <TimeSelect
               label="시작 시간"
-              type="time"
-              value={startTime}
-              onChange={(e) => setStartTime(e.target.value)}
-              step={900} // 15 minutes
+              value={startMin}
+              onChange={setStartMin}
+              minTime={0}
+              maxTime={1425}
             />
-            <Input
+            <TimeSelect
               label="종료 시간"
-              type="time"
-              value={endTime}
-              onChange={(e) => setEndTime(e.target.value)}
-              step={900}
+              value={endMin}
+              onChange={setEndMin}
+              minTime={15}
+              maxTime={1440}
             />
           </div>
         )}
