@@ -19,7 +19,6 @@ export default function Home() {
     blocks,
     summary,
     isLoading,
-    error,
     isFormModalOpen,
     formBlockType,
     editingBlock,
@@ -84,13 +83,6 @@ export default function Home() {
           if (fullBlock) openFormModal(block.type, fullBlock);
         }}
       />
-
-      {/* Error Display */}
-      {error && (
-        <div className="px-4 py-2 bg-red-50 text-red-600 text-sm">
-          {error}
-        </div>
-      )}
 
       {/* Timeline */}
       <Timeline

@@ -67,7 +67,7 @@ export function SettingsModal({
         grid_minutes: gridMinutes,
       });
     } catch {
-      setError('설정 저장에 실패했습니다.');
+      // API 에러는 plannerStore에서 toast로 처리됨
     } finally {
       setIsSaving(false);
     }

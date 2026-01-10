@@ -3,6 +3,7 @@
 import { create } from 'zustand';
 import { format } from 'date-fns';
 import * as api from '@/lib/api';
+import { toast } from './toastStore';
 import type {
   BlockType,
   DayPlannerResponse,
@@ -47,7 +48,6 @@ interface PlannerState {
 
   // UI State
   isLoading: boolean;
-  error: string | null;
   editingBlock: BlockData | null;
   isFormModalOpen: boolean;
   formBlockType: BlockType;
@@ -74,7 +74,6 @@ export const usePlannerStore = create<PlannerState>((set, get) => ({
   blocks: [],
   summary: { plan_total_min: 0, execution_total_min: 0 },
   isLoading: false,
-  error: null,
   editingBlock: null,
   isFormModalOpen: false,
   formBlockType: 'PLAN',
@@ -90,7 +89,7 @@ export const usePlannerStore = create<PlannerState>((set, get) => ({
     const { selectedDate } = get();
     const dateStr = format(selectedDate, 'yyyy-MM-dd');
 
-    set({ isLoading: true, error: null });
+    set({ isLoading: true });
 
     try {
       const data: DayPlannerResponse = await api.fetchDayData(dateStr);
@@ -102,10 +101,8 @@ export const usePlannerStore = create<PlannerState>((set, get) => ({
         isLoading: false,
       });
     } catch (err) {
-      set({
-        error: err instanceof Error ? err.message : 'Failed to fetch data',
-        isLoading: false
-      });
+      toast.error(err instanceof Error ? err.message : '데이터를 불러오는데 실패했습니다');
+      set({ isLoading: false });
     }
   },
 
@@ -114,8 +111,9 @@ export const usePlannerStore = create<PlannerState>((set, get) => ({
       await api.createBlock(data);
       await get().fetchDayData();
       set({ isFormModalOpen: false, editingBlock: null });
+      toast.success('블록이 생성되었습니다');
     } catch (err) {
-      set({ error: err instanceof Error ? err.message : 'Failed to create block' });
+      toast.error(err instanceof Error ? err.message : '블록 생성에 실패했습니다');
       throw err;
     }
   },
@@ -125,8 +123,9 @@ export const usePlannerStore = create<PlannerState>((set, get) => ({
       await api.updateBlock(id, data);
       await get().fetchDayData();
       set({ isFormModalOpen: false, editingBlock: null });
+      toast.success('블록이 수정되었습니다');
     } catch (err) {
-      set({ error: err instanceof Error ? err.message : 'Failed to update block' });
+      toast.error(err instanceof Error ? err.message : '블록 수정에 실패했습니다');
       throw err;
     }
   },
@@ -136,8 +135,9 @@ export const usePlannerStore = create<PlannerState>((set, get) => ({
       await api.deleteBlock(id);
       await get().fetchDayData();
       set({ isFormModalOpen: false, editingBlock: null });
+      toast.success('블록이 삭제되었습니다');
     } catch (err) {
-      set({ error: err instanceof Error ? err.message : 'Failed to delete block' });
+      toast.error(err instanceof Error ? err.message : '블록 삭제에 실패했습니다');
       throw err;
     }
   },
@@ -174,8 +174,9 @@ export const usePlannerStore = create<PlannerState>((set, get) => ({
         isSettingsModalOpen: false,
       });
       await get().fetchDayData();
+      toast.success('설정이 저장되었습니다');
     } catch (err) {
-      set({ error: err instanceof Error ? err.message : 'Failed to update settings' });
+      toast.error(err instanceof Error ? err.message : '설정 저장에 실패했습니다');
       throw err;
     }
   },

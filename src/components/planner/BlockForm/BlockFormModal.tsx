@@ -115,8 +115,8 @@ export function BlockFormModal({
         };
         await onSubmit(createData);
       }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : '저장에 실패했습니다');
+    } catch {
+      // API 에러는 plannerStore에서 toast로 처리됨
     } finally {
       setIsSubmitting(false);
     }
@@ -130,8 +130,8 @@ export function BlockFormModal({
     setIsSubmitting(true);
     try {
       await onDelete(editingBlock.id);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : '삭제에 실패했습니다');
+    } catch {
+      // API 에러는 plannerStore에서 toast로 처리됨
     } finally {
       setIsSubmitting(false);
     }
