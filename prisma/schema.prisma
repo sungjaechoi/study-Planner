@@ -1,0 +1,97 @@
+// Prisma Schema for Study Planner Timeline
+// Database: SQLite (development)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// Users Table
+// ============================================
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  timezone  String   @default("Asia/Seoul")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  settings PlannerSettings?
+  subjects Subject[]
+  blocks   TimeBlock[]
+
+  @@map("users")
+}
+
+// ============================================
+// Planner Settings Table
+// ============================================
+model PlannerSettings {
+  id          String   @id @default(uuid())
+  userId      String   @unique @map("user_id")
+  gridMinutes Int      @default(15) @map("grid_minutes")
+  dayStartMin Int      @default(360) @map("day_start_min")
+  dayEndMin   Int      @default(1380) @map("day_end_min")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("planner_settings")
+}
+
+// ============================================
+// Subjects Table
+// ============================================
+model Subject {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  name      String
+  colorHex  String   @map("color_hex")
+  sortOrder Int      @default(0) @map("sort_order")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user   User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  blocks TimeBlock[]
+
+  // Indexes
+  @@index([userId, sortOrder])
+  @@map("subjects")
+}
+
+// ============================================
+// Time Blocks Table
+// ============================================
+model TimeBlock {
+  id           String   @id @default(uuid())
+  userId       String   @map("user_id")
+  subjectId    String?  @map("subject_id")
+  date         String // Format: "YYYY-MM-DD"
+  type         String // "PLAN" or "EXECUTION"
+  isAllDay     Boolean  @default(false) @map("is_all_day")
+  startMin     Int?     @map("start_min")
+  endMin       Int?     @map("end_min")
+  title        String
+  note         String?
+  displayOrder Int      @default(0) @map("display_order")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject Subject? @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+
+  // Indexes for common queries
+  @@index([userId, date, type])
+  @@index([userId, date])
+  @@map("time_blocks")
+}
