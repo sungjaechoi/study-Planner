@@ -1,0 +1,70 @@
+{
+  "workflow_id": "wf-1736480400000",
+  "workflow_name": "Structured Development: fullstack",
+  "started_at": "2026-01-10T00:00:00Z",
+  "updated_at": "2026-01-11T08:00:00Z",
+  "status": "IN_PROGRESS",
+  "execution_mode": "full",
+  "execution_phases": [
+    {"phase": 1, "type": "sequential", "agents": ["requirements-analyst"]},
+    {"phase": 2, "type": "sequential", "agents": ["architect"]},
+    {"phase": 3, "type": "sequential", "agents": ["backend-implementer"]},
+    {"phase": 4, "type": "sequential", "agents": ["frontend-implementer"]},
+    {"phase": 5, "type": "sequential", "agents": ["code-reviewer"]}
+  ],
+  "phase": 5,
+  "total_phases": 5,
+  "context_preservation": {
+    "original_request": "PRD에 맞춰 작업 진행해주세요",
+    "key_decisions": [
+      {"phase": 1, "decision": "상세 요구사항 명세서 작성 완료"},
+      {"phase": 2, "decision": "Next.js 15 + React 19 + TypeScript + Prisma + SQLite 기술 스택 선정"},
+      {"phase": 3, "decision": "백엔드 구현 완료 - 7개 API 라우트, 4개 서비스 레이어"},
+      {"phase": 4, "decision": "프론트엔드 구현 완료 - Zustand, 커스텀 훅, UI/플래너 컴포넌트"}
+    ],
+    "accumulated_files": {
+      "created": [],
+      "modified": [],
+      "deleted": []
+    },
+    "work_summary_by_agent": {
+      "requirements-analyst": "PRD를 기반으로 상세 요구사항 명세서 작성.",
+      "architect": "기술 스택 선정, 3-Layer 아키텍처 설계, Prisma 스키마 작성.",
+      "backend-implementer": "TypeScript 타입, 유틸리티, Prisma Client, 서비스 레이어, API 라우트, Zod 스키마 구현 완료.",
+      "frontend-implementer": "Zustand 상태 관리, 커스텀 훅, API 클라이언트, UI/플래너 컴포넌트 구현, 빌드 테스트 성공."
+    }
+  },
+  "completed_phases": [
+    {"phase": 1, "agent": "requirements-analyst", "success": true, "completed_at": "2026-01-10T07:30:00Z"},
+    {"phase": 2, "agent": "architect", "success": true, "completed_at": "2026-01-10T07:40:00Z"},
+    {"phase": 3, "agent": "backend-implementer", "success": true, "completed_at": "2026-01-10T07:50:00Z"},
+    {"phase": 4, "agent": "frontend-implementer", "success": true, "completed_at": "2026-01-11T08:00:00Z"}
+  ],
+  "phase_results": {
+    "1": {"agent": "requirements-analyst", "success": true},
+    "2": {"agent": "architect", "success": true},
+    "3": {"agent": "backend-implementer", "success": true},
+    "4": {"agent": "frontend-implementer", "success": true}
+  },
+  "next_action": {
+    "type": "sequential",
+    "agents": [
+      {
+        "agent": "code-reviewer",
+        "instruction": "스터디 플래너 전체 구현에 대한 코드 리뷰를 수행하세요."
+      }
+    ],
+    "context": {
+      "original_request": "PRD에 맞춰 작업 진행해주세요",
+      "previous_results": [],
+      "required_documents": []
+    },
+    "expected_output": {
+      "format": "json",
+      "required_fields": ["success", "decision", "summary", "issues", "recommendations"]
+    },
+    "human_approval": null
+  },
+  "feedback_loop": null,
+  "final_result": null
+}
