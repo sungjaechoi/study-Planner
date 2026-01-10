@@ -1,4 +1,4 @@
-import { isValid15MinIncrement, isValidTimeRange } from './time';
+import { isValidTimeRange } from './time';
 
 /**
  * Validation error class
@@ -36,24 +36,7 @@ export function validateTimeBlock(data: {
       );
     }
 
-    // Validate 15-minute increments
-    if (!isValid15MinIncrement(startMin)) {
-      throw new ValidationError(
-        '시작 시간은 15분 단위로 입력해주세요',
-        'start_min',
-        'NOT_15MIN_INCREMENT'
-      );
-    }
-
-    if (!isValid15MinIncrement(endMin)) {
-      throw new ValidationError(
-        '종료 시간은 15분 단위로 입력해주세요',
-        'end_min',
-        'NOT_15MIN_INCREMENT'
-      );
-    }
-
-    // Validate time range
+    // Validate time range (no longer requires 15-minute increments for flexibility)
     if (!isValidTimeRange(startMin, endMin)) {
       throw new ValidationError(
         '시작 시간은 종료 시간보다 이전이어야 합니다',

@@ -8,7 +8,7 @@ import { AllDayArea } from '@/components/planner/AllDayArea/AllDayArea';
 import { Timeline } from '@/components/planner/Timeline/Timeline';
 import { BlockFormModal } from '@/components/planner/BlockForm/BlockFormModal';
 import { SettingsModal } from '@/components/planner/Settings';
-import { DEFAULT_DAY_START, DEFAULT_DAY_END } from '@/lib/constants';
+import { DEFAULT_DAY_START, DEFAULT_DAY_END, GRID_MINUTES } from '@/lib/constants';
 import type { CreateBlockRequest, UpdateBlockRequest } from '@/types';
 
 export default function Home() {
@@ -42,6 +42,7 @@ export default function Home() {
   const allDayBlocks = blocks.filter(b => b.is_all_day);
   const dayStartMin = settings?.day_start_min ?? DEFAULT_DAY_START;
   const dayEndMin = settings?.day_end_min ?? DEFAULT_DAY_END;
+  const gridMinutes = settings?.grid_minutes ?? GRID_MINUTES;
 
   const handleSubmit = async (data: CreateBlockRequest | UpdateBlockRequest) => {
     if (editingBlock) {
@@ -49,6 +50,13 @@ export default function Home() {
     } else {
       await createBlock(data as CreateBlockRequest);
     }
+  };
+
+  const handleDragEnd = async (blockId: string, newStartMin: number, newEndMin: number) => {
+    await updateBlock(blockId, {
+      start_min: newStartMin,
+      end_min: newEndMin,
+    });
   };
 
   if (isLoading && !blocks.length) {
@@ -90,8 +98,10 @@ export default function Home() {
         subjects={subjects}
         dayStartMin={dayStartMin}
         dayEndMin={dayEndMin}
+        gridMinutes={gridMinutes}
         onBlockClick={(block) => openFormModal(block.type, block)}
         onAddBlock={(type) => openFormModal(type)}
+        onDragEnd={handleDragEnd}
       />
 
       {/* Block Form Modal */}

@@ -27,8 +27,10 @@ interface TimelineProps {
   subjects: Subject[];
   dayStartMin: number;
   dayEndMin: number;
+  gridMinutes: number;
   onBlockClick: (block: Block) => void;
   onAddBlock: (type: BlockType) => void;
+  onDragEnd: (blockId: string, newStartMin: number, newEndMin: number) => Promise<void>;
 }
 
 export function Timeline({
@@ -36,8 +38,10 @@ export function Timeline({
   subjects,
   dayStartMin,
   dayEndMin,
+  gridMinutes,
   onBlockClick,
   onAddBlock,
+  onDragEnd,
 }: TimelineProps) {
   const planBlocks = blocks.filter(b => b.type === 'PLAN' && !b.is_all_day);
   const executionBlocks = blocks.filter(b => b.type === 'EXECUTION' && !b.is_all_day);
@@ -55,8 +59,10 @@ export function Timeline({
           subjects={subjects}
           dayStartMin={dayStartMin}
           dayEndMin={dayEndMin}
+          gridMinutes={gridMinutes}
           onBlockClick={onBlockClick}
           onAddClick={() => onAddBlock('PLAN')}
+          onDragEnd={onDragEnd}
         />
 
         {/* Divider */}
@@ -69,8 +75,10 @@ export function Timeline({
           subjects={subjects}
           dayStartMin={dayStartMin}
           dayEndMin={dayEndMin}
+          gridMinutes={gridMinutes}
           onBlockClick={onBlockClick}
           onAddClick={() => onAddBlock('EXECUTION')}
+          onDragEnd={onDragEnd}
         />
       </div>
     </div>

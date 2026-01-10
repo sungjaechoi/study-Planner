@@ -31,8 +31,10 @@ interface BlockColumnProps {
   subjects: Subject[];
   dayStartMin: number;
   dayEndMin: number;
+  gridMinutes: number;
   onBlockClick: (block: Block) => void;
   onAddClick: () => void;
+  onDragEnd: (blockId: string, newStartMin: number, newEndMin: number) => Promise<void>;
 }
 
 export function BlockColumn({
@@ -41,8 +43,10 @@ export function BlockColumn({
   subjects,
   dayStartMin,
   dayEndMin,
+  gridMinutes,
   onBlockClick,
   onAddClick,
+  onDragEnd,
 }: BlockColumnProps) {
   const layoutBlocks = useOverlapLayout(blocks);
   const totalHours = (dayEndMin - dayStartMin) / 60;
@@ -88,10 +92,13 @@ export function BlockColumn({
             startMin={block.start_min!}
             endMin={block.end_min!}
             dayStartMin={dayStartMin}
+            dayEndMin={dayEndMin}
+            gridMinutes={gridMinutes}
             laneIndex={block.laneIndex}
             laneCount={block.laneCount}
             subjectColor={getSubjectColor(block.subject_id)}
             onClick={() => onBlockClick(block)}
+            onDragEnd={onDragEnd}
           />
         ))}
       </div>

@@ -25,22 +25,6 @@ export const createBlockSchema = z.object({
     return true;
   },
   { message: '시작 시간은 종료 시간보다 이전이어야 합니다', path: ['time_range'] }
-).refine(
-  (data) => {
-    if (!data.is_all_day && data.start_min !== undefined) {
-      return data.start_min % 15 === 0;
-    }
-    return true;
-  },
-  { message: '시작 시간은 15분 단위로 입력해주세요', path: ['start_min'] }
-).refine(
-  (data) => {
-    if (!data.is_all_day && data.end_min !== undefined) {
-      return data.end_min % 15 === 0;
-    }
-    return true;
-  },
-  { message: '종료 시간은 15분 단위로 입력해주세요', path: ['end_min'] }
 );
 
 export const updateBlockSchema = z.object({
