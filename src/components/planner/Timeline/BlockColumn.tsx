@@ -58,7 +58,7 @@ export function BlockColumn({
     <div className="flex-1 flex flex-col">
       {/* Column Header */}
       <div className={`
-        flex items-center justify-between px-3 py-2 border-b
+        sticky top-0 z-10 flex items-center justify-between px-3 py-2 border-b
         ${type === 'PLAN' ? 'bg-blue-50' : 'bg-emerald-50'}
       `}>
         <span className={`text-sm font-medium ${type === 'PLAN' ? 'text-blue-700' : 'text-emerald-700'}`}>

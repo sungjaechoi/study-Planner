@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { minutesToTime } from '@/lib/utils/time';
-import { HOUR_HEIGHT } from '@/lib/constants';
+import { minutesToTime } from "@/lib/utils/time";
+import { HOUR_HEIGHT } from "@/lib/constants";
 
 interface TimeAxisProps {
   dayStartMin: number;
@@ -18,7 +18,7 @@ export function TimeAxis({ dayStartMin, dayEndMin }: TimeAxisProps) {
   }
 
   return (
-    <div className="w-16 flex-shrink-0 border-r bg-gray-50">
+    <div className="w-16 flex-shrink-0 border-r mt-10 bg-gray-50">
       {hours.map((hour, index) => (
         <div
           key={hour}

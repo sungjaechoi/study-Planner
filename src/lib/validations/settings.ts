@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const updateSettingsSchema = z.object({
-  grid_minutes: z.literal(15).optional(),
+  grid_minutes: z.union([z.literal(15), z.literal(30), z.literal(60)]).optional(),
   day_start_min: z.number().int().min(0).max(1439).optional(),
   day_end_min: z.number().int().min(1).max(1440).optional(),
 }).refine(

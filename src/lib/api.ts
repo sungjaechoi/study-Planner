@@ -3,7 +3,8 @@ import type {
   CreateBlockRequest,
   UpdateBlockRequest,
   CreateSubjectRequest,
-  UpdateSettingsRequest
+  UpdateSettingsRequest,
+  SettingsResponse
 } from '@/types';
 
 const API_BASE = '/api';
@@ -63,8 +64,8 @@ export async function fetchSettings() {
   return fetchAPI('/settings');
 }
 
-export async function updateSettings(data: UpdateSettingsRequest) {
-  return fetchAPI('/settings', {
+export async function updateSettings(data: UpdateSettingsRequest): Promise<SettingsResponse> {
+  return fetchAPI<SettingsResponse>('/settings', {
     method: 'PATCH',
     body: JSON.stringify(data),
   });

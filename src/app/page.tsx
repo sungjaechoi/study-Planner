@@ -7,6 +7,7 @@ import { DaySummary } from '@/components/planner/Summary/DaySummary';
 import { AllDayArea } from '@/components/planner/AllDayArea/AllDayArea';
 import { Timeline } from '@/components/planner/Timeline/Timeline';
 import { BlockFormModal } from '@/components/planner/BlockForm/BlockFormModal';
+import { SettingsModal } from '@/components/planner/Settings';
 import { DEFAULT_DAY_START, DEFAULT_DAY_END } from '@/lib/constants';
 import type { CreateBlockRequest, UpdateBlockRequest } from '@/types';
 
@@ -22,6 +23,7 @@ export default function Home() {
     isFormModalOpen,
     formBlockType,
     editingBlock,
+    isSettingsModalOpen,
     setSelectedDate,
     fetchDayData,
     createBlock,
@@ -29,6 +31,9 @@ export default function Home() {
     deleteBlock,
     openFormModal,
     closeFormModal,
+    openSettingsModal,
+    closeSettingsModal,
+    updateSettings,
   } = usePlannerStore();
 
   useEffect(() => {
@@ -61,6 +66,7 @@ export default function Home() {
       <DateNavigation
         selectedDate={selectedDate}
         onDateChange={setSelectedDate}
+        onSettingsClick={openSettingsModal}
       />
 
       {/* Day Summary */}
@@ -106,6 +112,14 @@ export default function Home() {
         selectedDate={selectedDate}
         onSubmit={handleSubmit}
         onDelete={deleteBlock}
+      />
+
+      {/* Settings Modal */}
+      <SettingsModal
+        isOpen={isSettingsModalOpen}
+        onClose={closeSettingsModal}
+        currentSettings={settings}
+        onSave={updateSettings}
       />
     </div>
   );

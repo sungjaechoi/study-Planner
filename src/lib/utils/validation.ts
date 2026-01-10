@@ -85,9 +85,10 @@ export function validatePlannerSettings(data: {
 }): void {
   const { gridMinutes, dayStartMin, dayEndMin } = data;
 
-  if (gridMinutes !== undefined && gridMinutes !== 15) {
+  const validGridMinutes = [15, 30, 60];
+  if (gridMinutes !== undefined && !validGridMinutes.includes(gridMinutes)) {
     throw new ValidationError(
-      '그리드 단위는 15분이어야 합니다',
+      '그리드 단위는 15분, 30분, 60분 중 하나여야 합니다',
       'grid_minutes',
       'INVALID_GRID_MINUTES'
     );

@@ -7,7 +7,8 @@ import type {
   BlockType,
   DayPlannerResponse,
   CreateBlockRequest,
-  UpdateBlockRequest
+  UpdateBlockRequest,
+  UpdateSettingsRequest
 } from '@/types';
 
 interface BlockData {
@@ -50,6 +51,7 @@ interface PlannerState {
   editingBlock: BlockData | null;
   isFormModalOpen: boolean;
   formBlockType: BlockType;
+  isSettingsModalOpen: boolean;
 
   // Actions
   setSelectedDate: (date: Date) => void;
@@ -59,6 +61,9 @@ interface PlannerState {
   deleteBlock: (id: string) => Promise<void>;
   openFormModal: (type: BlockType, block?: BlockData) => void;
   closeFormModal: () => void;
+  openSettingsModal: () => void;
+  closeSettingsModal: () => void;
+  updateSettings: (data: UpdateSettingsRequest) => Promise<void>;
 }
 
 export const usePlannerStore = create<PlannerState>((set, get) => ({
@@ -73,6 +78,7 @@ export const usePlannerStore = create<PlannerState>((set, get) => ({
   editingBlock: null,
   isFormModalOpen: false,
   formBlockType: 'PLAN',
+  isSettingsModalOpen: false,
 
   // Actions
   setSelectedDate: (date: Date) => {
@@ -145,5 +151,31 @@ export const usePlannerStore = create<PlannerState>((set, get) => ({
 
   closeFormModal: () => {
     set({ isFormModalOpen: false, editingBlock: null });
+  },
+
+  openSettingsModal: () => {
+    set({ isSettingsModalOpen: true });
+  },
+
+  closeSettingsModal: () => {
+    set({ isSettingsModalOpen: false });
+  },
+
+  updateSettings: async (data: UpdateSettingsRequest) => {
+    try {
+      const updatedSettings = await api.updateSettings(data);
+      set({
+        settings: {
+          grid_minutes: updatedSettings.grid_minutes,
+          day_start_min: updatedSettings.day_start_min,
+          day_end_min: updatedSettings.day_end_min,
+        },
+        isSettingsModalOpen: false,
+      });
+      await get().fetchDayData();
+    } catch (err) {
+      set({ error: err instanceof Error ? err.message : 'Failed to update settings' });
+      throw err;
+    }
   },
 }));

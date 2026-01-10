@@ -135,6 +135,14 @@ export interface UpdateSettingsRequest {
   day_end_min?: number;
 }
 
+export interface SettingsResponse {
+  id: string;
+  grid_minutes: number;
+  day_start_min: number;
+  day_end_min: number;
+  updated_at: string;
+}
+
 export interface CreateSubjectRequest {
   name: string;
   color_hex: string;
