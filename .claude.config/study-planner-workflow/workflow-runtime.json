@@ -1,0 +1,447 @@
+{
+  "version": "6.0",
+  "type": "workflow-runtime",
+  "metadata": {
+    "workflowName": "Structured Development: fullstack",
+    "workflowDescription": "9단계 AI Agent 기반 코드 작성 프로세스 - Please create a workflow that analyzes user requirements, performs backend tasks, validates them, then does frontend tasks, validates those, performs integration validation, and finishes.",
+    "generated": "2026-01-10T13:53:37.495Z",
+    "totalSteps": 8,
+    "hasFeedbackLoops": true
+  },
+  "executionGraph": {
+    "nodes": [
+      {
+        "id": "__implicit_orchestrator__",
+        "type": "agent",
+        "config": {
+          "description": "Orchestrator that coordinates the Structured Development: fullstack workflow. Worker agents: requirements-analyst, architect, backend-implementer, frontend-implementer, code-reviewer",
+          "instructions": "",
+          "tools": [
+            "Task",
+            "Read",
+            "Write",
+            "Grep",
+            "Glob"
+          ],
+          "model": "sonnet",
+          "isOrchestrator": true,
+          "orchestrationMode": "manual",
+          "mcpServers": []
+        },
+        "dependencies": [],
+        "nextNodes": [],
+        "metadata": {
+          "label": "__implicit_orchestrator__",
+          "description": "Orchestrator that coordinates the Structured Development: fullstack workflow. Worker agents: requirements-analyst, architect, backend-implementer, frontend-implementer, code-reviewer"
+        }
+      },
+      {
+        "id": "project-guidelines",
+        "type": "document",
+        "config": {
+          "content": "# Project Guidelines\n\n## Overview\nThis document outlines the structured development process for a fullstack application using AI agents. It includes a nine-step workflow that guides the analysis of user requirements, backend tasks, frontend tasks, and integration validation.\n\n## Table of Contents\n1. [Workflow Steps](#workflow-steps)\n2. [User Requirements Analysis](#user-requirements-analysis)\n3. [Backend Development Tasks](#backend-development-tasks)\n4. [Backend Validation](#backend-validation)\n5. [Frontend Development Tasks](#frontend-development-tasks)\n6. [Frontend Validation](#frontend-validation)\n7. [Integration Validation](#integration-validation)\n8. [Edge Cases](#edge-cases)\n\n## Workflow Steps\nThe following are the nine steps involved in the structured development process:\n\n1. Analyze User Requirements\n2. Define Backend Architecture\n3. Implement Backend Services\n4. Validate Backend Services\n5. Design Frontend Interface\n6. Implement Frontend Features\n7. Validate Frontend Features\n8. Perform Integration Testing\n9. Finalize and Document the Project\n\n## User Requirements Analysis\n- **Objective**: Gather and document user requirements to ensure the application meets user needs.\n- **Actions**:\n  - Conduct interviews or surveys with stakeholders.\n  - Create user stories to capture functional requirements.\n  - Prioritize requirements based on user feedback.\n\n### Example User Stories\n- As a user, I want to log in so that I can access my account.\n- As an admin, I want to generate reports to analyze user activity.\n\n## Backend Development Tasks\n- **Objective**: Build the server-side logic and database structure.\n- **Actions**:\n  1. **Define the Database Schema**:\n     - Use ER diagrams to visualize relationships.\n     - Example:\n       ```sql\n       CREATE TABLE users (\n           id INT PRIMARY KEY,\n           username VARCHAR(50) NOT NULL,\n           password_hash VARCHAR(255) NOT NULL\n       );\n       ```\n  2. **Set Up API Endpoints**:\n     - Define RESTful API endpoints.\n     - Example:\n       ```\n       POST /api/users/register\n       GET /api/users/{id}\n       ```\n\n## Backend Validation\n- **Objective**: Ensure backend services function as expected.\n- **Actions**:\n  - Write unit tests for each service.\n  - Validate API responses against expected outputs.\n  \n### Example Unit Test (using Jest)\n```javascript\ntest('should register a new user', async () => {\n    const response = await request(app)\n        .post('/api/users/register')\n        .send({ username: 'testuser', password: 'password123' });\n    expect(response.status).toBe(201);\n});\n```\n\n## Frontend Development Tasks\n- **Objective**: Create the user interface and client-side logic.\n- **Actions**:\n  1. **Design UI Components**:\n     - Use wireframes and design tools (Figma, Sketch).\n  2. **Implement Components**:\n     - Use frameworks like React or Vue.js for development.\n     - Example:\n       ```javascript\n       function LoginComponent() {\n           return (\n               <form>\n                   <input type=\"text\" placeholder=\"Username\" />\n                   <input type=\"password\" placeholder=\"Password\" />\n                   <button type=\"submit\">Login</button>\n               </form>\n           );\n       }\n       ```\n\n## Frontend Validation\n- **Objective**: Ensure frontend features work as intended.\n- **Actions**:\n  - Conduct usability testing with real users.\n  - Use automated testing tools (e.g., Cypress) to validate UI components.\n\n### Example Cypress Test\n```javascript\ndescribe('Login Component', () => {\n    it('should log in successfully', () => {\n        cy.visit('/login');\n        cy.get('input[type=\"text\"]').type('testuser');\n        cy.get('input[type=\"password\"]').type('password123');\n        cy.get('button').click();\n        cy.url().should('include', '/dashboard');\n    });\n});\n```\n\n## Integration Validation\n- **Objective**: Test the complete application for functionality and performance.\n- **Actions**:\n  - Perform end-to-end testing to simulate user scenarios.\n  - Validate data flow between frontend and backend.\n\n### Example Integration Test Scenario\n- **Scenario**: User logs in and views their dashboard.\n- **Steps**:\n  1. User visits the login page.\n  2. User enters credentials and submits the form.\n  3. System redirects to the dashboard page.\n  4. Verify that user-specific data is displayed.\n\n## Edge Cases\n- **Handling Invalid Inputs**:\n  - Ensure that the application gracefully handles unexpected user inputs.\n  - Example: Show error messages for invalid login attempts.\n  \n- **Network Failures**:\n  - Implement retry logic for API requests.\n  - Example: Use exponential backoff for retries on failed network requests.\n\n- **Concurrency Issues**:\n  - Test the application under load to ensure it can handle multiple requests simultaneously.\n\n### Example Code for Error Handling\n```javascript\nasync function fetchData() {\n    try {\n        const response = await fetch('/api/data');\n        if (!response.ok) throw new Error('Network response was not ok');\n        const data = await response.json();\n        return data;\n    } catch (error) {\n        console.error('Fetch error:', error);\n    }\n}\n```\n\n## Conclusion\nFollowing this structured development workflow ensures a thorough, systematic approach to building fullstack applications. Adhering to these guidelines will help maintain quality and consistency throughout the development process."
+        },
+        "dependencies": [],
+        "nextNodes": [],
+        "metadata": {
+          "label": "project-guidelines",
+          "description": "Document node"
+        }
+      },
+      {
+        "id": "api-documentation",
+        "type": "document",
+        "config": {
+          "content": "# API Documentation\n\n## Overview\nThis document outlines the API for a fullstack application that employs AI agents to streamline the code development process through a structured workflow. The API facilitates user requirement analysis, backend processing, frontend task execution, and integration validation, ensuring a comprehensive development lifecycle.\n\n## User Stories\n\n### US-1: Requirement Analysis\n- **As a**: Developer\n- **I want**: to analyze user requirements\n- **So that**: I can ensure the application meets user needs effectively.\n\n### US-2: Backend Task Execution\n- **As a**: Backend Engineer\n- **I want**: to perform backend tasks\n- **So that**: I can process data accurately and efficiently.\n\n### US-3: Frontend Task Execution\n- **As a**: Frontend Developer\n- **I want**: to implement frontend tasks\n- **So that**: I can provide a user-friendly interface.\n\n### US-4: Integration Validation\n- **As a**: QA Engineer\n- **I want**: to validate integration points\n- **So that**: I can ensure all components work together seamlessly.\n\n## Acceptance Criteria\n- [ ] User requirements are accurately captured and documented.\n- [ ] Backend tasks are executed without errors, and data is processed correctly.\n- [ ] Frontend tasks are implemented according to design specifications.\n- [ ] Integration validation tests confirm all components function as expected.\n\n## Functional Requirements\n\n### FR-1: Requirement Analysis\n- **Description**: The system must analyze user requirements using natural language processing techniques to extract key features and functionalities.\n- **Priority**: High\n- **Dependencies**: User input must be provided.\n\n### FR-2: Backend Task Execution\n- **Description**: The system must handle data storage, processing, and retrieval through a RESTful API.\n- **Priority**: High\n- **Dependencies**: Database must be set up and accessible.\n\n### FR-3: Frontend Task Implementation\n- **Description**: The system must render a responsive UI based on user requirements and backend responses.\n- **Priority**: Medium\n- **Dependencies**: Backend API must be functional.\n\n### FR-4: Integration Validation\n- **Description**: The system must run integration tests to verify that all components communicate and function together correctly.\n- **Priority**: High\n- **Dependencies**: All functional components must be implemented.\n\n## Non-Functional Requirements\n\n### NFR-1: Performance\n- Response time: < 200 ms for all API requests\n- Throughput: 100 requests/sec\n\n### NFR-2: Security\n- **Authentication**: OAuth 2.0 must be implemented for secure access.\n- **Authorization**: Role-based access control must ensure that users have appropriate permissions.\n\n## Constraints\n- The API must comply with GDPR and other relevant data protection regulations.\n- The application must be developed using the selected technology stack (e.g., Node.js, React).\n\n## Out of Scope\n- Real-time collaboration features are not included in this phase.\n- Mobile application development is excluded from the initial release.\n\n## Workflow Steps\n1. **Requirement Analysis**\n   - Utilize NLP to gather user requirements from input.\n   - Document requirements in a structured format.\n\n2. **Backend Task Execution**\n   - Set up a RESTful API endpoint for data handling.\n   - Implement data processing logic based on requirements.\n\n3. **Validation of Backend Tasks**\n   - Run unit tests to ensure backend functionality.\n   - Validate data integrity and error handling.\n\n4. **Frontend Task Execution**\n   - Create UI components based on user requirements.\n   - Connect frontend components to the backend API.\n\n5. **Validation of Frontend Tasks**\n   - Conduct usability testing to ensure a seamless user experience.\n   - Verify frontend functionality against design specifications.\n\n6. **Integration Validation**\n   - Perform end-to-end testing to ensure all components work together.\n   - Document the results of integration tests.\n\n7. **User Acceptance Testing (UAT)**\n   - Engage users to test the application against their needs.\n   - Collect feedback and make necessary adjustments.\n\n8. **Deployment**\n   - Prepare the application for production deployment.\n   - Ensure all environment configurations are correctly set up.\n\n9. **Post-Deployment Monitoring**\n   - Monitor application performance and error logs.\n   - Implement feedback loops for continuous improvement.\n\n---\n*Last updated: 2026-01-10T12:14:02.677Z*",
+          "presetId": "requirements-doc",
+          "presetVersion": "1.0.0"
+        },
+        "dependencies": [],
+        "nextNodes": [],
+        "metadata": {
+          "label": "api-documentation",
+          "description": "Document node"
+        }
+      },
+      {
+        "id": "design-system",
+        "type": "document",
+        "config": {
+          "content": "# Design System\n\n## Overview\nThis document outlines the design system for a fullstack application using an AI agent-based code writing process. It covers the structured development workflow, including how to analyze user requirements, perform backend and frontend tasks, validate them, and conduct integration validation.\n\n## Architecture\n\n### System Architecture\nThe system architecture is designed to facilitate seamless interactions between the frontend and backend through a well-defined API. Below is a high-level diagram of the overall system structure.\n\n```\n[Insert system architecture diagram here]\n```\n\n### Component Structure\nKey components of the application and their responsibilities are outlined below. Each component has specific dependencies that must be managed effectively.\n\n| Component     | Responsibility                                           | Dependencies            |\n|---------------|---------------------------------------------------------|--------------------------|\n| AI Agent      | Analyzes user requirements and generates code           | NLP Library, Code Parser |\n| Backend       | Handles data storage, business logic, and API responses | Database, Auth Service    |\n| Frontend      | User interface and client-side logic                     | UI Framework, State Management Library |\n\n## Data Model\n\n### Entities\nThe following data structures represent the key entities in the application:\n\n```typescript\ninterface User {\n  id: string;\n  name: string;\n  email: string;\n  // Additional user fields\n}\n\ninterface Task {\n  id: string;\n  title: string;\n  completed: boolean;\n  assignedTo: string; // User ID\n}\n```\n\n### State Management\nState management flows through the application using a central state store. This approach allows components to access and modify shared state seamlessly.\n\n## UI/UX Design\n\n### User Flow\nThe user flow outlines the interaction steps a user takes within the application. Below are some key actions and their resulting states:\n\n1. User logs in → Redirect to dashboard\n2. User creates a new task → Task added to the list and displayed\n3. User marks a task as completed → Task state updated and visual feedback provided\n\n### Component Hierarchy\nThe component hierarchy showcases the structure of the application’s UI components.\n\n```\nApp\n├── Layout\n│   ├── Header\n│   ├── Sidebar\n│   └── Main\n│       ├── TaskList\n│       │   └── TaskItem\n│       └── TaskDetails\n└── Modals\n    └── TaskModal\n```\n\n### Wireframes\nWireframes can be found at the following links:\n- [Dashboard Wireframe](#)\n- [Task Creation Modal Wireframe](#)\n\n## API Design\n\n### Endpoints\nThe following endpoints are defined for the application’s API. Each endpoint includes its method, path, and a brief description.\n\n| Method | Path                | Description                            |\n|--------|---------------------|----------------------------------------|\n| GET    | /api/users          | Retrieve a list of users               |\n| POST   | /api/tasks          | Create a new task                      |\n| GET    | /api/tasks/:id      | Retrieve task details by ID            |\n| PUT    | /api/tasks/:id      | Update task details by ID              |\n| DELETE | /api/tasks/:id      | Delete a task by ID                    |\n\n## Technical Decisions\n\n### Decision 1: AI Agent Integration\n- **Context**: The need for an AI agent to analyze user requirements and generate code.\n- **Decision**: Integrate a Natural Language Processing (NLP) library to facilitate understanding of user input.\n- **Consequences**: This allows for dynamic code generation but requires robust error handling and input validation.\n\n### Decision 2: State Management Approach\n- **Context**: The need for consistent state across components.\n- **Decision**: Use a centralized state management library (e.g., Redux) for predictable state changes.\n- **Consequences**: Simplifies state management but introduces boilerplate code.\n\n## Dependencies\nThe following external libraries, services, or APIs are required for the application.\n\n| Dependency              | Version | Purpose                                    |\n|-------------------------|---------|--------------------------------------------|\n| Express                 | ^4.17.1 | Web framework for the backend              |\n| Mongoose                | ^5.10.9 | MongoDB ORM for database interaction       |\n| React                   | ^17.0.2 | Frontend framework for building UI         |\n| Redux                   | ^4.1.0  | State management for React applications    |\n| Axios                   | ^0.21.1 | Promise-based HTTP client for API calls    |\n\n---\n*Last updated: 2026-01-10T12:14:02.677Z* \n\n<!-- Document binding: [[design-system]] -->",
+          "presetId": "design-spec",
+          "presetVersion": "1.0.0"
+        },
+        "dependencies": [],
+        "nextNodes": [],
+        "metadata": {
+          "label": "design-system",
+          "description": "Document node"
+        }
+      },
+      {
+        "id": "api-spec",
+        "type": "document",
+        "config": {
+          "content": "# API Specification\n\n## Overview\nThis document outlines the specification for the API used in the Structured Development workflow. The API facilitates interactions with resources, providing endpoints for CRUD operations and validation processes.\n\n**Base URL**: `/api/v1`  \n**Authentication**: Bearer Token / API Key\n\n## Endpoints\n\n### Resource Management\n\n#### GET /resource\nRetrieve a list of resources.\n\n**Query Parameters:**\n| Parameter | Type   | Required | Description                           |\n|-----------|--------|----------|---------------------------------------|\n| page      | number | No       | Page number for paginated results (default: 1) |\n| limit     | number | No       | Number of items per page (default: 20) |\n\n**Response:**\n```json\n{\n  \"data\": [\n    {\n      \"id\": \"1\",\n      \"name\": \"Resource One\",\n      \"createdAt\": \"2023-01-01T00:00:00Z\"\n    }\n  ],\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 20,\n    \"total\": 100\n  }\n}\n```\n\n#### GET /resource/:id\nRetrieve a single resource by its ID.\n\n**Path Parameters:**\n| Parameter | Type   | Description         |\n|-----------|--------|---------------------|\n| id        | string | Unique resource ID  |\n\n**Response:**\n```json\n{\n  \"id\": \"1\",\n  \"name\": \"Resource One\",\n  \"description\": \"This is a sample resource.\",\n  \"createdAt\": \"2023-01-01T00:00:00Z\",\n  \"updatedAt\": \"2023-01-02T00:00:00Z\"\n}\n```\n\n**Error Responses:**\n| Status | Description            |\n|--------|------------------------|\n| 404    | Resource not found     |\n\n#### POST /resource\nCreate a new resource.\n\n**Request Body:**\n```json\n{\n  \"name\": \"string (required)\",\n  \"description\": \"string (optional)\"\n}\n```\n\n**Response:**\n```json\n{\n  \"id\": \"1\",\n  \"name\": \"Resource One\",\n  \"createdAt\": \"2023-01-01T00:00:00Z\"\n}\n```\n\n**Error Responses:**\n| Status | Description                    |\n|--------|--------------------------------|\n| 400    | Invalid request body           |\n| 409    | Resource already exists        |\n\n#### PUT /resource/:id\nUpdate an existing resource.\n\n**Path Parameters:**\n| Parameter | Type   | Description         |\n|-----------|--------|---------------------|\n| id        | string | Unique resource ID  |\n\n**Request Body:**\n```json\n{\n  \"name\": \"string (optional)\",\n  \"description\": \"string (optional)\"\n}\n```\n\n**Response:**\n```json\n{\n  \"success\": true,\n  \"message\": \"Resource updated successfully.\"\n}\n```\n\n#### DELETE /resource/:id\nDelete a resource.\n\n**Path Parameters:**\n| Parameter | Type   | Description         |\n|-----------|--------|---------------------|\n| id        | string | Unique resource ID  |\n\n**Response:**\n```json\n{\n  \"success\": true,\n  \"message\": \"Resource deleted successfully.\"\n}\n```\n\n## Data Models\n\n### Resource\n```typescript\ninterface Resource {\n  id: string;              // Unique identifier for the resource\n  name: string;            // Name of the resource\n  description?: string;    // Optional description of the resource\n  createdAt: string;       // Timestamp of resource creation\n  updatedAt: string;       // Timestamp of last update\n}\n```\n\n## Error Format\nAll error responses conform to the following structure:\n```json\n{\n  \"error\": {\n    \"code\": \"ERROR_CODE\",          // Code representing the error\n    \"message\": \"Human readable message\", // Description of the error\n    \"details\": {}                   // Optional field for additional error details\n  }\n}\n```\n\n## Rate Limiting\n- **Limit**: 100 requests per minute\n- **Headers**:\n  - `X-RateLimit-Limit`: Maximum number of requests allowed\n  - `X-RateLimit-Remaining`: Number of requests remaining in the current window\n\n## Workflow Steps\n1. **Analyze User Requirements**\n   - Gather and document user requirements for the resource.\n   \n2. **Backend Tasks**\n   - Implement CRUD operations based on requirements.\n   - Ensure data validation and error handling.\n\n3. **Validation of Backend**\n   - Test endpoints using tools like Postman or automated test scripts to ensure they behave as expected.\n\n4. **Frontend Tasks**\n   - Design user interface components that interact with the API.\n   - Implement API calls to perform CRUD operations.\n\n5. **Validation of Frontend**\n   - Conduct user testing to validate that the frontend properly displays data and handles user input correctly.\n\n6. **Integration Validation**\n   - Test the complete flow from frontend to backend to ensure smooth integration.\n\n7. **Documentation Update**\n   - Update this API specification document as necessary to reflect any changes made during development.\n\n8. **Deployment**\n   - Prepare the application for deployment and ensure that all endpoints are functioning as expected.\n\n9. **Monitoring & Maintenance**\n   - Implement monitoring solutions to track API usage and performance.\n\n---\n*Last updated: 2026-01-10T12:14:02.677Z*",
+          "presetId": "api-spec",
+          "presetVersion": "1.0.0"
+        },
+        "dependencies": [],
+        "nextNodes": [],
+        "metadata": {
+          "label": "api-spec",
+          "description": "Document node"
+        }
+      },
+      {
+        "id": "requirements-guid",
+        "type": "document",
+        "config": {
+          "content": "# Requirements Guid\n\n## Overview\nThis document outlines the requirements for a fullstack development workflow that utilizes an AI agent to automate code generation processes. The workflow consists of nine steps, including user requirements analysis, backend tasks, validation, frontend tasks, integration validation, and finalization. The goal is to ensure a streamlined and efficient development process while maintaining high quality and adherence to user specifications.\n\n## User Stories\n\n### US-1: User Requirements Analysis\n- **As a**: Product Owner\n- **I want**: to gather and analyze user requirements\n- **So that**: I can ensure the development team understands the project goals and user needs.\n\n### US-2: Backend Development\n- **As a**: Backend Developer\n- **I want**: to implement backend functionalities based on user requirements\n- **So that**: the application can handle data processing and business logic effectively.\n\n### US-3: Frontend Development\n- **As a**: Frontend Developer\n- **I want**: to create user interfaces that align with the backend functionalities\n- **So that**: users can interact with the application seamlessly.\n\n### US-4: Integration Validation\n- **As a**: QA Engineer\n- **I want**: to perform integration validation between frontend and backend\n- **So that**: I can ensure the entire application works as intended.\n\n## Acceptance Criteria\n- [ ] All user requirements are documented and approved.\n- [ ] Backend APIs are developed and tested for functionality.\n- [ ] Frontend components are implemented and validated against design specifications.\n- [ ] Integration tests are performed, and all critical paths work without errors.\n- [ ] Documentation is complete and accessible for future reference.\n\n## Functional Requirements\n\n### FR-1: User Requirements Analysis\n- **Description**: The AI agent must analyze user requirements gathered through stakeholder interviews and surveys.\n- **Priority**: High\n- **Dependencies**: User input must be collected and documented.\n\n### FR-2: Backend Development\n- **Description**: Implement backend services, including database interactions and API endpoints.\n- **Priority**: High\n- **Dependencies**: Completion of user requirements analysis.\n\n### FR-3: Frontend Development\n- **Description**: Develop responsive user interfaces using the latest frontend technologies.\n- **Priority**: High\n- **Dependencies**: Backend services must be available and documented.\n\n### FR-4: Integration Validation\n- **Description**: Execute tests to ensure communication between frontend and backend works as intended.\n- **Priority**: High\n- **Dependencies**: Frontend and backend development must be complete.\n\n## Non-Functional Requirements\n\n### NFR-1: Performance\n- **Response time**: < 200 ms for any API request.\n- **Throughput**: Must support up to 1000 requests/sec under peak load.\n\n### NFR-2: Security\n- **Authentication**: Implement OAuth 2.0 for user authentication.\n- **Authorization**: Role-based access control must be enforced for all sensitive operations.\n\n### NFR-3: Scalability\n- The application must be able to scale horizontally to handle increased load without performance degradation.\n\n## Constraints\n- The project must comply with GDPR regulations regarding user data handling.\n- Limited budget constraints may affect the choice of technology stack.\n\n## Out of Scope\n- Integration with third-party services not specified in the user requirements.\n- Development of mobile applications for this release.\n\n---\n*Last updated: 2026-01-10T12:14:02.677Z*",
+          "presetId": "requirements-doc",
+          "presetVersion": "1.0.0"
+        },
+        "dependencies": [],
+        "nextNodes": [],
+        "metadata": {
+          "label": "requirements-guid",
+          "description": "Document node"
+        }
+      },
+      {
+        "id": "requirements-analyst",
+        "type": "agent",
+        "config": {
+          "mode": "overwrite",
+          "name": "",
+          "model": "opus",
+          "tools": [
+            "Read",
+            "Glob",
+            "Grep",
+            "WebSearch"
+          ],
+          "skills": [
+            {
+              "skillId": "react-analyzer",
+              "version": "1.0.0",
+              "snapshotName": "React Analyzer",
+              "snapshotTemplate": "# React Analyzer\n\nAnalyzes symbol usage in React/Next.js codebases before refactoring. Finds hooks, components, server actions, and assesses breaking change risk.\n\n## When to Use\n\nUse this skill when modifying shared React code to understand the impact of changes.\n\n## Capabilities\n\n- **Component Analysis**: Find all usages of React components across the codebase\n- **Hook Tracking**: Identify custom hooks and their consumers\n- **Server Action Detection**: Map server actions and their call sites\n- **Breaking Change Assessment**: Evaluate risk level of proposed changes\n\n## Usage Instructions\n\nWhen this skill is invoked, perform the following analysis:\n\n1. **Identify the target symbol** (component, hook, or server action)\n2. **Search for all imports** of the symbol across the codebase\n3. **Map usage patterns**:\n   - Direct usage in JSX\n   - Prop drilling\n   - Re-exports\n   - Dynamic imports\n4. **Assess impact**:\n   - Count affected files\n   - Identify critical paths\n   - Flag breaking changes\n\n## Output Format\n\n```json\n{\n  \"symbol\": \"ComponentName\",\n  \"type\": \"component | hook | serverAction\",\n  \"usages\": [\n    {\n      \"file\": \"path/to/file.tsx\",\n      \"line\": 42,\n      \"usageType\": \"import | jsx | prop | reexport\"\n    }\n  ],\n  \"impactLevel\": \"low | medium | high | critical\",\n  \"breakingChanges\": [\"list of potential breaking changes\"],\n  \"recommendations\": [\"list of recommendations\"]\n}\n```\n",
+              "snapshotDescription": "Analyzes symbol usage in React/Next.js codebases before refactoring"
+            }
+          ],
+          "content": "",
+          "mcpServers": [
+            {
+              "serverId": "github",
+              "serverName": "GitHub",
+              "selectedTools": [],
+              "includeExamples": true
+            }
+          ],
+          "outputFile": "",
+          "description": "Requirements Analyst: 요구사항 분석 및 스펙 문서 작성",
+          "instructions": "## Inputs\n- User requests detailing features and functionalities.\n- Any existing documentation or specifications relevant to the project.\n- Constraints related to technology, time, or resources.\n\n## Tasks\n1. **Requirements Gathering**\n   - Review user requests to identify and document:\n     - Functional requirements: What functionalities must the system provide?\n     - Non-functional requirements: What performance, security, or usability standards must be met?\n     - User stories: Create user stories in the format \"As a [user], I want [feature] so that [benefit]\".\n     - Acceptance criteria for each user story: Define conditions under which a feature is accepted.\n     - Identify edge cases and potential error scenarios.\n\n2. **Prioritization**\n   - Rank the identified requirements based on:\n     - Business value: How critical is the requirement to the business?\n     - Technical dependency: Are there prerequisites for implementing this requirement?\n     - Risk level: What is the risk involved in implementing or not implementing this requirement?\n     - Implementation complexity: How difficult is it to implement this requirement?\n\n3. **Validation**\n   - Ensure that all requirements are:\n     - Specific and measurable: Can each requirement be clearly defined?\n     - Achievable within scope: Are the requirements realistic given the project constraints?\n     - Relevant to user needs: Do they align with the identified user stories?\n     - Testable: Can the requirements be verified or tested?\n\n4. **Constraints Analysis**\n   - Document any constraints that may affect the project, including:\n     - Technical limitations: Are there any technologies or approaches that cannot be used?\n     - Time/resource constraints: What are the deadlines and resource limitations?\n     - Integration requirements: Are there existing systems that need to be integrated?\n     - Compliance needs: Are there regulatory requirements that must be adhered to?\n\n## Outputs\n```json\n{\n  \"userStories\": [\n    {\n      \"id\": \"US-1\",\n      \"title\": \"Story title\",\n      \"description\": \"As a [user], I want [feature] so that [benefit]\",\n      \"acceptanceCriteria\": [\"Criterion 1\", \"Criterion 2\"],\n      \"priority\": \"high | medium | low\"\n    }\n  ],\n  \"nonFunctional\": [\n    {\"category\": \"performance | security | usability\", \"requirement\": \"Description\"}\n  ],\n  \"constraints\": [\"Constraint 1\", \"Constraint 2\"],\n  \"outOfScope\": [\"Items explicitly excluded\"]\n}\n```\n\n## Validation\n- Confirm that the output JSON structure adheres to the specified format.\n- Validate that all fields in user stories, non-functional requirements, constraints, and out-of-scope items are populated and contain relevant information.\n- Ensure that acceptance criteria are quantifiable and specific.\n\n## Error Handling\n- If user requests lack detail, prompt for additional information or clarification.\n- If requirements appear contradictory or ambiguous, consult with stakeholders for clarification before proceeding.\n- If prioritization leads to a stalemate (e.g., equal ranking), facilitate a discussion to resolve conflicts.\n- If any requirements fail validation, identify the specific failing criteria and document them for revision.",
+          "parallelGroup": 0,
+          "feedbackTargetId": "",
+          "documents": [
+            "requirements-guid"
+          ]
+        },
+        "dependencies": [],
+        "nextNodes": [
+          {
+            "targetId": "architect",
+            "condition": {
+              "type": "always"
+            }
+          }
+        ],
+        "metadata": {
+          "label": "Requirements Analyst",
+          "description": "Requirements Analyst: 요구사항 분석 및 스펙 문서 작성"
+        }
+      },
+      {
+        "id": "architect",
+        "type": "agent",
+        "config": {
+          "mode": "overwrite",
+          "name": "",
+          "model": "opus",
+          "tools": [
+            "Read",
+            "Glob",
+            "Grep",
+            "WebSearch"
+          ],
+          "skills": [
+            {
+              "skillId": "react-analyzer",
+              "version": "1.0.0",
+              "snapshotName": "React Analyzer",
+              "snapshotTemplate": "# React Analyzer\n\nAnalyzes symbol usage in React/Next.js codebases before refactoring. Finds hooks, components, server actions, and assesses breaking change risk.\n\n## When to Use\n\nUse this skill when modifying shared React code to understand the impact of changes.\n\n## Capabilities\n\n- **Component Analysis**: Find all usages of React components across the codebase\n- **Hook Tracking**: Identify custom hooks and their consumers\n- **Server Action Detection**: Map server actions and their call sites\n- **Breaking Change Assessment**: Evaluate risk level of proposed changes\n\n## Usage Instructions\n\nWhen this skill is invoked, perform the following analysis:\n\n1. **Identify the target symbol** (component, hook, or server action)\n2. **Search for all imports** of the symbol across the codebase\n3. **Map usage patterns**:\n   - Direct usage in JSX\n   - Prop drilling\n   - Re-exports\n   - Dynamic imports\n4. **Assess impact**:\n   - Count affected files\n   - Identify critical paths\n   - Flag breaking changes\n\n## Output Format\n\n```json\n{\n  \"symbol\": \"ComponentName\",\n  \"type\": \"component | hook | serverAction\",\n  \"usages\": [\n    {\n      \"file\": \"path/to/file.tsx\",\n      \"line\": 42,\n      \"usageType\": \"import | jsx | prop | reexport\"\n    }\n  ],\n  \"impactLevel\": \"low | medium | high | critical\",\n  \"breakingChanges\": [\"list of potential breaking changes\"],\n  \"recommendations\": [\"list of recommendations\"]\n}\n```\n",
+              "snapshotDescription": "Analyzes symbol usage in React/Next.js codebases before refactoring"
+            }
+          ],
+          "content": "",
+          "mcpServers": [
+            {
+              "serverId": "github",
+              "serverName": "GitHub",
+              "selectedTools": [],
+              "includeExamples": true
+            }
+          ],
+          "outputFile": "",
+          "description": "Architect: 아키텍처 설계 및 설계 문서 작성",
+          "instructions": "## Inputs\n\n- **From Architect Agent:**\n  - Architecture design document including:\n    - Component structure and responsibilities\n    - API contracts and interfaces (request/response schema)\n    - State management approach\n    - Technology stack and library choices (Next.js, React 19, TypeScript)\n    - Database schema details (if applicable)\n\n- **Additional Constraints (필수 조건) ✅**\n  1. 백엔드 스키마(DB Schema/ERD)는 Next.js 프로젝트 내에서 관리 가능한 형태로 구성되어야 한다.\n     - 예: Prisma schema, Drizzle schema, 또는 SQL migration 파일 등\n  2. API 서비스 로직은 Next.js App Router 기반으로 `/app/api` 폴더에 라우트로 구성되어야 한다.\n  3. 각 API 라우트는 Controller(라우트 핸들러) ↔ Service(비즈니스 로직) ↔ (Repository/DB) 레이어로 분리한다.\n  4. 서비스 로직의 응답 스펙에 정확히 맞는 목데이터(Mock Data)를 생성해야 한다.\n     - 목데이터는 \"API Response Shape\"를 100% 만족해야 하며, 테스트 및 개발환경에서 사용 가능해야 한다.\n\n---\n\n## Tasks\n\n### 1) Initialize Project\n\n- 아키텍처 문서를 기반으로 프로젝트 구조를 세팅한다.\n- 기술 스택 결정에 따라 필요한 라이브러리/프레임워크를 설치한다.\n- 필수 폴더 구조를 생성한다. (예시)\n  - `app/api/**/route.ts` : API 라우트(컨트롤러)\n  - `src/server/services/**` : 서비스(비즈니스 로직)\n  - `src/server/repositories/**` : 데이터 접근 계층(선택)\n  - `src/server/db/**` : DB 스키마/클라이언트/마이그레이션\n  - `src/mocks/**` : 목데이터/목 핸들러/픽스처\n\n### 2) Backend Development\n\n#### 2-1. Create API Endpoints\n\n- 아키텍처 문서에 정의된 API 엔드포인트를 Next.js App Router 방식으로 구현한다.\n- 각 엔드포인트는 아래 규칙을 따른다:\n  - `app/api/<resource>/<action>/route.ts` 형태로 라우팅\n  - `route.ts`는 \"컨트롤러 역할\"만 수행 (요청 파싱/검증/응답 반환)\n  - 실제 로직은 services 레이어에 위임\n\n#### 2-2. Implement Business Logic (Service Layer)\n\n- `src/server/services`에 서비스 함수를 구현한다.\n- 서비스 로직은 다음을 보장한다:\n  - 유저스토리/요구사항과 1:1로 맵핑 가능한 구조\n  - 오류 케이스를 명확히 정의(도메인 에러 코드/메시지)\n  - DB 연동 여부에 따라 Repository/DB 호출 분리\n\n### 3) Database Integration (Schema 포함) ✅\n\n#### 3-1. Set Up Database Schema\n\n- 제공된 스키마(ERD/테이블 관계)를 Next.js 프로젝트 내 스키마 파일로 구현한다.\n  - 예: `prisma/schema.prisma` 또는 `drizzle/schema.ts` 또는 `/migrations/*.sql`\n- `.env` 환경변수로 DB 연결을 설정한다.\n- 마이그레이션 및 초기화 절차를 문서화한다.\n\n#### 3-2. Implement Data Access Layer (CRUD)\n\n- CRUD 접근 계층을 구현한다(Repository 또는 DB 함수 모음).\n- 저장 전 데이터 검증(형식/범위/필수값) 수행.\n- 트랜잭션이 필요한 흐름은 서비스 레이어에서 일관되게 관리한다.\n\n### 4) Mock Data Generation (서비스 응답 기반) ✅\n\n- 각 서비스 로직의 \"성공/실패 응답 스펙\"에 대응하는 목데이터를 생성한다.\n- 목데이터 생성 규칙:\n  - \"API Contract\"의 response shape을 정확히 따를 것\n  - 가능한 한 테스트에서도 재사용 가능한 fixture 형태로 만들 것\n- 케이스 포함:\n  - 정상 응답(기본/경계값)\n  - 실패 응답(검증 오류/권한 오류/리소스 없음/서버 오류)\n- 산출물 예:\n  - `src/mocks/fixtures/<endpoint>.fixture.ts`\n  - `src/mocks/data/<entity>.mock.ts`\n\n### 5) Testing\n\n- 각 API 엔드포인트 + 서비스 로직에 대한 단위 테스트 작성\n- 테스트는 아래를 포함:\n  - Positive / Negative 케이스\n  - 입력 검증 실패 케이스\n  - DB 연결/쿼리 실패 케이스(가능하면 mock)\n\n### 6) Documentation\n\n- 구현된 API 엔드포인트 문서화:\n  - method, URL, params/body, response schema, error schema\n- DB 스키마 문서화:\n  - 테이블/컬럼/관계/인덱스/제약조건 요약\n- \"서비스 ↔ 목데이터\" 매핑 문서화:\n  - 어떤 서비스 응답에 어떤 fixture가 대응되는지\n\n---\n\n## Outputs (반환 JSON)\n\n최종 응답은 아래 필드를 포함하는 JSON이어야 한다.\n\n```json\n{\n  \"status\": \"success | failure\",\n  \"project\": {\n    \"structure\": [\n      \"app/api/.../route.ts\",\n      \"src/server/services/...\",\n      \"src/server/db/...\",\n      \"src/mocks/...\"\n    ],\n    \"installedLibraries\": [\"list of libraries\"]\n  },\n  \"database\": {\n    \"schemaImplemented\": true,\n    \"schemaFiles\": [\"path list\"],\n    \"notes\": \"migration/env setup notes\"\n  },\n  \"endpoints\": [\n    {\n      \"name\": \"endpoint name\",\n      \"method\": \"GET|POST|PUT|DELETE\",\n      \"url\": \"/api/...\",\n      \"parameters\": {\n        \"query\": [],\n        \"path\": [],\n        \"body\": []\n      },\n      \"responseFormat\": {\n        \"success\": {},\n        \"error\": {}\n      },\n      \"service\": \"src/server/services/...\"\n    }\n  ],\n  \"mockData\": [\n    {\n      \"forEndpoint\": \"/api/...\",\n      \"fixtures\": [\"src/mocks/fixtures/...\"],\n      \"cases\": [\"success-basic\", \"success-edge\", \"error-validation\", \"error-notfound\"]\n    }\n  ],\n  \"tests\": {\n    \"executed\": [\"test file list\"],\n    \"passed\": 0,\n    \"failed\": 0,\n    \"summary\": \"brief summary\"\n  },\n  \"errors\": [\n    {\n      \"type\": \"API_ENDPOINT_ERROR | DB_CONNECTION_ERROR | VALIDATION_ERROR\",\n      \"message\": \"error detail\",\n      \"context\": {}\n    }\n  ]\n}\n```\n\n---\n\n## Validation\n\n### Input Validation\n\n- Architect Agent 입력이 구조적으로 완전한지 확인:\n  - API 계약(request/response)이 최소 1개 이상 존재\n  - (DB가 필요한 도메인이라면) 스키마 정의가 포함되어 있는지\n- 추가 조건 검증 ✅\n  - `/app/api` 라우트 기반 구현인지\n  - 서비스 레이어 분리 여부\n  - 서비스 응답과 목데이터의 shape 일치 여부\n\n### Output Validation\n\n- JSON 응답에 필수 필드 포함 여부:\n  - `status`, `endpoints`, `tests`, `mockData`, `database`\n- 테스트 실행 결과로 엔드포인트 동작 보장 여부\n\n---\n\n## Error Handling\n\n### API Endpoint Errors\n\n- 엔드포인트 생성 실패 시:\n  - 에러 로그 기록\n  - `status: failure` 및 `errors[]`에 상세 포함\n\n### Database Connection Errors\n\n- DB 연결 실패 시:\n  - 환경변수/연결 문자열/권한 문제를 구분해서 기록\n  - `DB_CONNECTION_ERROR`로 반환\n\n### Validation Errors\n\n- 요청 데이터 검증 실패 시:\n  - 어떤 필드가 어떤 규칙을 위반했는지 명확히 반환\n  - `VALIDATION_ERROR`로 반환",
+          "parallelGroup": 0,
+          "feedbackTargetId": "",
+          "documents": [
+            "project-guidelines",
+            "design-system",
+            "api-spec"
+          ]
+        },
+        "dependencies": [
+          "requirements-analyst"
+        ],
+        "nextNodes": [
+          {
+            "targetId": "backend-implementer",
+            "condition": {
+              "type": "always"
+            }
+          }
+        ],
+        "metadata": {
+          "label": "Architect",
+          "description": "Architect: 아키텍처 설계 및 설계 문서 작성"
+        }
+      },
+      {
+        "id": "backend-implementer",
+        "type": "agent",
+        "config": {
+          "mode": "overwrite",
+          "name": "",
+          "model": "sonnet",
+          "tools": [
+            "Read",
+            "Glob",
+            "Grep"
+          ],
+          "skills": [
+            {
+              "skillId": "react-analyzer",
+              "version": "1.0.0",
+              "snapshotName": "React Analyzer",
+              "snapshotTemplate": "# React Analyzer\n\nAnalyzes symbol usage in React/Next.js codebases before refactoring. Finds hooks, components, server actions, and assesses breaking change risk.\n\n## When to Use\n\nUse this skill when modifying shared React code to understand the impact of changes.\n\n## Capabilities\n\n- **Component Analysis**: Find all usages of React components across the codebase\n- **Hook Tracking**: Identify custom hooks and their consumers\n- **Server Action Detection**: Map server actions and their call sites\n- **Breaking Change Assessment**: Evaluate risk level of proposed changes\n\n## Usage Instructions\n\nWhen this skill is invoked, perform the following analysis:\n\n1. **Identify the target symbol** (component, hook, or server action)\n2. **Search for all imports** of the symbol across the codebase\n3. **Map usage patterns**:\n   - Direct usage in JSX\n   - Prop drilling\n   - Re-exports\n   - Dynamic imports\n4. **Assess impact**:\n   - Count affected files\n   - Identify critical paths\n   - Flag breaking changes\n\n## Output Format\n\n```json\n{\n  \"symbol\": \"ComponentName\",\n  \"type\": \"component | hook | serverAction\",\n  \"usages\": [\n    {\n      \"file\": \"path/to/file.tsx\",\n      \"line\": 42,\n      \"usageType\": \"import | jsx | prop | reexport\"\n    }\n  ],\n  \"impactLevel\": \"low | medium | high | critical\",\n  \"breakingChanges\": [\"list of potential breaking changes\"],\n  \"recommendations\": [\"list of recommendations\"]\n}\n```\n",
+              "snapshotDescription": "Analyzes symbol usage in React/Next.js codebases before refactoring"
+            }
+          ],
+          "content": "",
+          "mcpServers": [
+            {
+              "serverId": "github",
+              "serverName": "GitHub",
+              "selectedTools": [],
+              "includeExamples": true
+            }
+          ],
+          "outputFile": "",
+          "description": "Backend Implementer: 백엔드 코드 및 API 구현",
+          "instructions": "## Inputs\n\n- **From Architect Agent:**\n  - Architecture design document including:\n    - Component structure and responsibilities\n    - API contracts and interfaces (request/response schema 포함)\n    - State management approach\n    - User stories / requirements mapping (각 API가 어떤 요구사항을 만족하는지)\n    - Technology stack and library choices\n    - Database schema details (if applicable)\n\n- **Mandatory Implementation Constraints (필수 조건) ✅**\n  1. Database schema must be implemented inside the Next.js repository as one of:\n     - Prisma schema (`prisma/schema.prisma`) + migrations, or\n     - Drizzle schema (`src/server/db/schema.ts`) + migrations, or\n     - SQL migration files (`src/server/db/migrations/*.sql`)\n  2. API endpoints must be implemented using Next.js App Router under:\n     - `app/api/**/route.ts`\n  3. Route handlers (`route.ts`) must act as Controller only:\n     - Parse & validate input, call Service, return response\n     - No business logic inside route handlers\n  4. Business logic must be implemented in Service layer:\n     - `src/server/services/**`\n  5. Mock data must be generated to match service response formats exactly:\n     - Must include both success and error cases\n     - Must be reusable for tests and local development\n     - Recommended location: `src/mocks/**`\n\n---\n\n## Tasks\n\n### 1. Initialize Project\n\n- Set up the project structure based on the architecture document.\n- Ensure that the necessary libraries and frameworks are installed as per the technology decisions.\n- Create mandatory folder structure:\n  - `app/api/**/route.ts`\n  - `src/server/services/**`\n  - `src/server/db/**`\n  - `src/mocks/**`\n\n### 2. Backend Development\n\n#### 2-1. Create API Endpoints\n\n- Implement API endpoints as defined in the architecture document.\n- Ensure each endpoint follows the specified API contracts and interfaces.\n- Enforce Next.js App Router routing:\n  - Endpoints must exist under `app/api/**/route.ts`\n- Controller rules:\n  - Validate input (schema validation)\n  - Call service functions\n  - Return standardized response\n\n#### 2-2. Implement Business Logic\n\n- Develop the necessary business logic for each API endpoint in:\n  - `src/server/services/**`\n- Ensure that the logic aligns with the user stories and requirements defined by the Architect.\n- Ensure services are pure and testable (dependency injection recommended).\n\n### 3. Database Integration\n\n#### 3-1. Set Up Database Schema (Repo 내부 구현 강제) ✅\n\n- Configure the database based on the schema provided.\n- Implement schema inside the Next.js repository in one of the allowed formats:\n  - Prisma / Drizzle / SQL migrations\n- Ensure connection settings and environment variables are correctly set up.\n- Document how to run migrations and seed data (if any).\n\n#### 3-2. Implement Data Access Layer\n\n- Create functions for CRUD operations as per the API requirements.\n- Validate data before storing it in the database.\n- Prefer repository pattern or db module functions under:\n  - `src/server/db/**` or `src/server/repositories/**`\n\n### 4. Mock Data Generation (서비스 응답 기반) ✅\n\n- For every API/service, generate mock data that matches the response contract exactly.\n- Include at least:\n  - Success: basic case, edge case\n  - Error: validation error, not found, server error (as applicable)\n- Store mock fixtures under:\n  - `src/mocks/fixtures/**`\n- If mock handlers are used (e.g. MSW), place under:\n  - `src/mocks/handlers/**`\n\n### 5. Testing\n\n- Write unit tests for each API endpoint and business logic component.\n- Ensure tests cover both positive and negative cases.\n- Tests must validate:\n  - Controller does not contain business logic\n  - Service behavior matches contracts\n  - Mock data conforms to response schema\n- Recommended:\n  - Service unit tests + route handler integration-lite tests\n\n### 6. Documentation\n\n- Document the API endpoints created, including request and response formats.\n- Update the API documentation with any changes made during development.\n- Additionally document:\n  - DB schema files location and migration steps\n  - Mock fixtures mapping to endpoints/services\n\n---\n\n## Outputs\n\nReturn a JSON response containing all of the following:\n```json\n{\n  \"status\": \"success|failure\",\n  \"project\": {\n    \"structure\": [\n      \"app/api/.../route.ts\",\n      \"src/server/services/...\",\n      \"src/server/db/...\",\n      \"src/mocks/...\"\n    ],\n    \"installedLibraries\": []\n  },\n  \"database\": {\n    \"enabled\": true,\n    \"schemaFormat\": \"prisma|drizzle|sql|none\",\n    \"schemaFiles\": [],\n    \"envKeys\": [\"DATABASE_URL\"],\n    \"migrationNotes\": \"\"\n  },\n  \"endpoints\": [\n    {\n      \"name\": \"\",\n      \"method\": \"GET|POST|PUT|DELETE\",\n      \"url\": \"/api/...\",\n      \"parameters\": {\n        \"query\": [],\n        \"path\": [],\n        \"body\": []\n      },\n      \"responseFormat\": {\n        \"success\": {},\n        \"error\": {}\n      },\n      \"routeFile\": \"app/api/.../route.ts\",\n      \"serviceFile\": \"src/server/services/...ts\"\n    }\n  ],\n  \"mockData\": [\n    {\n      \"forEndpoint\": \"/api/...\",\n      \"fixtures\": [\"src/mocks/fixtures/...ts\"],\n      \"cases\": [\"success-basic\", \"success-edge\", \"error-validation\", \"error-notfound\"]\n    }\n  ],\n  \"tests\": {\n    \"executed\": [],\n    \"passed\": 0,\n    \"failed\": 0,\n    \"summary\": \"\"\n  },\n  \"errors\": [\n    {\n      \"type\": \"API_ENDPOINT_ERROR|DB_CONNECTION_ERROR|VALIDATION_ERROR|MOCK_DATA_ERROR|TEST_FAILURE\",\n      \"message\": \"\",\n      \"context\": {}\n    }\n  ]\n}\n```\n\n---\n\n## Validation\n\n### Input Validation\n\n- Ensure that all inputs from the Architect agent are received and correctly structured.\n- Validate that:\n  - Each API has request/response contract defined\n  - User story mapping exists for each endpoint/service\n  - DB schema is provided if persistence is required\n- Mandatory constraints validation ✅\n  - API routes exist under `app/api/**/route.ts`\n  - Business logic exists under `src/server/services/**`\n  - DB schema is implemented inside repository in allowed format\n  - Mock fixtures exist and match response formats exactly\n\n### Output Validation\n\n- Check that the JSON response includes all required fields:\n  - `status`, `endpoints`, `tests`, `mockData`, `database`, `project`\n- Validate that the endpoints function correctly through unit tests.\n- If mandatory constraints are not met, output must be `failure`.\n\n---\n\n## Error Handling\n\n### API Endpoint Errors\n\n- If an API endpoint fails to be created, log the error and return a failure response with error details.\n\n### Database Connection Errors\n\n- If the database connection fails, log the error and return a failure response indicating connection issues.\n\n### Validation Errors\n\n- If input data does not meet validation requirements, return a clear message detailing the validation errors encountered.\n\n### Mock Data Errors ✅\n\n- If mock data does not match the response contract, log mismatch details and return failure.\n\n### Test Failures ✅\n\n- If any required test fails, return failure with failing test details.",
+          "parallelGroup": 0,
+          "feedbackTargetId": "",
+          "documents": [
+            "api-documentation",
+            "api-spec"
+          ]
+        },
+        "dependencies": [
+          "architect",
+          "code-reviewer",
+          "code-reviewer"
+        ],
+        "nextNodes": [
+          {
+            "targetId": "frontend-implementer",
+            "condition": {
+              "type": "always"
+            }
+          }
+        ],
+        "metadata": {
+          "label": "Backend Implementer",
+          "description": "Backend Implementer: 백엔드 코드 및 API 구현"
+        }
+      },
+      {
+        "id": "frontend-implementer",
+        "type": "agent",
+        "config": {
+          "mode": "overwrite",
+          "name": "",
+          "model": "sonnet",
+          "tools": [
+            "Read",
+            "Glob",
+            "Grep"
+          ],
+          "skills": [
+            {
+              "skillId": "react-analyzer",
+              "version": "1.0.0",
+              "snapshotName": "React Analyzer",
+              "snapshotTemplate": "# React Analyzer\n\nAnalyzes symbol usage in React/Next.js codebases before refactoring. Finds hooks, components, server actions, and assesses breaking change risk.\n\n## When to Use\n\nUse this skill when modifying shared React code to understand the impact of changes.\n\n## Capabilities\n\n- **Component Analysis**: Find all usages of React components across the codebase\n- **Hook Tracking**: Identify custom hooks and their consumers\n- **Server Action Detection**: Map server actions and their call sites\n- **Breaking Change Assessment**: Evaluate risk level of proposed changes\n\n## Usage Instructions\n\nWhen this skill is invoked, perform the following analysis:\n\n1. **Identify the target symbol** (component, hook, or server action)\n2. **Search for all imports** of the symbol across the codebase\n3. **Map usage patterns**:\n   - Direct usage in JSX\n   - Prop drilling\n   - Re-exports\n   - Dynamic imports\n4. **Assess impact**:\n   - Count affected files\n   - Identify critical paths\n   - Flag breaking changes\n\n## Output Format\n\n```json\n{\n  \"symbol\": \"ComponentName\",\n  \"type\": \"component | hook | serverAction\",\n  \"usages\": [\n    {\n      \"file\": \"path/to/file.tsx\",\n      \"line\": 42,\n      \"usageType\": \"import | jsx | prop | reexport\"\n    }\n  ],\n  \"impactLevel\": \"low | medium | high | critical\",\n  \"breakingChanges\": [\"list of potential breaking changes\"],\n  \"recommendations\": [\"list of recommendations\"]\n}\n```\n",
+              "snapshotDescription": "Analyzes symbol usage in React/Next.js codebases before refactoring"
+            }
+          ],
+          "content": "",
+          "mcpServers": [
+            {
+              "serverId": "github",
+              "serverName": "GitHub",
+              "selectedTools": [],
+              "includeExamples": true
+            }
+          ],
+          "outputFile": "",
+          "description": "Frontend Implementer: 프론트엔드 코드 및 UI 구현",
+          "instructions": "## Inputs\n- **From Backend Implementer**:\n  - API endpoints and specifications, including:\n    - Request and response formats\n    - Authentication methods\n  - State management details, including:\n    - Actions and reducers (if applicable)\n  - Component structure from the architecture design document.\n\n## Tasks\n1. **Project Setup**:\n   - Create the directory structure for the frontend application based on the architecture document.\n   - Initialize the project using Next.js and install the necessary dependencies (React, Zustand, TailwindCSS).\n\n2. **Implement UI Components**:\n   - Develop UI components based on the design system and architecture document.\n   - Ensure components are reusable and follow the provided component structure.\n   - Utilize TailwindCSS for styling according to the design specifications.\n\n3. **Connect to Backend APIs**:\n   - Implement API calls using the specifications provided by the Backend Implementer.\n   - Ensure proper error handling for API requests.\n   - Manage loading states and errors in the UI.\n\n4. **State Management Implementation**:\n   - Set up Zustand for state management as per the provided approach.\n   - Create actions and reducers to manage the application state effectively.\n   - Ensure components subscribe to necessary state changes.\n\n5. **Testing**:\n   - Write unit tests for components and state management logic.\n   - Ensure tests cover key functionalities and edge cases.\n\n6. **Documentation**:\n   - Document each component's purpose, props, and usage.\n   - Include instructions for running the application and testing.\n\n## Outputs\n- A structured JSON response containing:\n  - List of implemented components with their associated API calls.\n  - State management structure including actions and reducers.\n  - Links to unit tests and their coverage reports.\n  - Documentation files in Markdown format.\n\n## Validation\n1. **Input Validation**:\n   - Confirm that the architecture document includes all necessary component and API details.\n   - Check that all required dependencies are installed correctly.\n\n2. **Output Validation**:\n   - Ensure the JSON response structure matches the expected format.\n   - Verify that each component functions as intended and passes all unit tests.\n\n## Error Handling\n1. **API Call Failures**:\n   - Log the error and display a user-friendly message in the UI.\n   - Retry API calls if applicable, or provide an option to retry to the user.\n\n2. **Component Rendering Errors**:\n   - Implement fallback UI for components that fail to render.\n   - Log errors to assist in debugging and ensure no breaking changes occur.\n\n3. **State Management Issues**:\n   - Validate state transitions and log any discrepancies.\n   - Implement default states to prevent application crashes.",
+          "parallelGroup": 0,
+          "feedbackTargetId": "",
+          "documents": [
+            "design-system"
+          ]
+        },
+        "dependencies": [
+          "backend-implementer"
+        ],
+        "nextNodes": [
+          {
+            "targetId": "code-reviewer",
+            "condition": {
+              "type": "always"
+            }
+          }
+        ],
+        "metadata": {
+          "label": "Frontend Implementer",
+          "description": "Frontend Implementer: 프론트엔드 코드 및 UI 구현"
+        }
+      },
+      {
+        "id": "code-reviewer",
+        "type": "agent",
+        "config": {
+          "mode": "overwrite",
+          "name": "",
+          "model": "opus",
+          "tools": [
+            "Read",
+            "Glob",
+            "Grep"
+          ],
+          "skills": [
+            {
+              "skillId": "react-analyzer",
+              "version": "1.0.0",
+              "snapshotName": "React Analyzer",
+              "snapshotTemplate": "# React Analyzer\n\nAnalyzes symbol usage in React/Next.js codebases before refactoring. Finds hooks, components, server actions, and assesses breaking change risk.\n\n## When to Use\n\nUse this skill when modifying shared React code to understand the impact of changes.\n\n## Capabilities\n\n- **Component Analysis**: Find all usages of React components across the codebase\n- **Hook Tracking**: Identify custom hooks and their consumers\n- **Server Action Detection**: Map server actions and their call sites\n- **Breaking Change Assessment**: Evaluate risk level of proposed changes\n\n## Usage Instructions\n\nWhen this skill is invoked, perform the following analysis:\n\n1. **Identify the target symbol** (component, hook, or server action)\n2. **Search for all imports** of the symbol across the codebase\n3. **Map usage patterns**:\n   - Direct usage in JSX\n   - Prop drilling\n   - Re-exports\n   - Dynamic imports\n4. **Assess impact**:\n   - Count affected files\n   - Identify critical paths\n   - Flag breaking changes\n\n## Output Format\n\n```json\n{\n  \"symbol\": \"ComponentName\",\n  \"type\": \"component | hook | serverAction\",\n  \"usages\": [\n    {\n      \"file\": \"path/to/file.tsx\",\n      \"line\": 42,\n      \"usageType\": \"import | jsx | prop | reexport\"\n    }\n  ],\n  \"impactLevel\": \"low | medium | high | critical\",\n  \"breakingChanges\": [\"list of potential breaking changes\"],\n  \"recommendations\": [\"list of recommendations\"]\n}\n```\n",
+              "snapshotDescription": "Analyzes symbol usage in React/Next.js codebases before refactoring"
+            }
+          ],
+          "content": "",
+          "mcpServers": [
+            {
+              "serverId": "github",
+              "serverName": "GitHub",
+              "selectedTools": [],
+              "includeExamples": true
+            }
+          ],
+          "outputFile": "",
+          "description": "Code Reviewer: 코드 품질 및 보안 검토",
+          "feedbackLoop": {
+            "status": "mapped",
+            "enabled": true,
+            "loopConfig": {
+              "actors": [
+                "backend-implementer",
+                "code-reviewer"
+              ],
+              "metadata": {
+                "validated": true,
+                "generatedAt": "2026-01-10T12:14:02.677Z",
+                "generatedBy": "manual"
+              },
+              "description": "Retry backend-implementer on review rejection",
+              "failureAction": {
+                "type": "retry",
+                "logMessage": "🔁 Retry {{retryCount}}/{{maxRetries}}",
+                "maxRetries": 2,
+                "description": "Retry backend-implementer on review rejection",
+                "targetNodeIds": [
+                  "backend-implementer"
+                ],
+                "feedbackTemplate": "Review feedback:\n\nBlockers:\n{{blockers}}\n\nAction items:\n{{action_items}}\n\nPlease fix the above and try again.",
+                "retryInstructions": "Address all blockers and complete action items based on reviewer feedback."
+              },
+              "loopCondition": {
+                "checkType": "json-field",
+                "checkField": "decision",
+                "successValue": "APPROVED",
+                "checkInstructions": "Check if decision field is APPROVED"
+              },
+              "successAction": {
+                "type": "continue",
+                "logMessage": "✅ Review approved - workflow complete",
+                "description": "Complete workflow on review approval"
+              },
+              "executionPattern": "sequential",
+              "orchestratorInstructions": "Check code-reviewer decision field. If NEEDS_CHANGES or REJECTED, extract blockers and action_items and retry backend-implementer."
+            }
+          },
+          "instructions": "## Inputs\n- **From Backend Implementer**:\n  - Code changes including:\n    - Source code files (e.g., .ts, .js)\n    - Configuration files (if applicable)\n  - Test cases and results (if available)\n\n## Tasks\n1. **Code Quality Review**:\n   - Analyze the provided source code for:\n     - Readability and adherence to clean code principles.\n     - Application of DRY (Don't Repeat Yourself) and SOLID principles.\n     - Proper error handling mechanisms.\n\n2. **Security Review**:\n   - Inspect the code for:\n     - Input validation issues that could lead to security vulnerabilities.\n     - Gaps in authentication and authorization processes.\n     - Potential injection vulnerabilities (e.g., SQL, XSS).\n     - Exposure of sensitive data (e.g., API keys, passwords).\n\n3. **Performance Review**:\n   - Evaluate the code for:\n     - Inefficient algorithms and unnecessary computations.\n     - Memory leaks that could lead to performance degradation.\n     - Unnecessary re-renders in the frontend components.\n     - N+1 query issues in backend database interactions.\n\n4. **Convention Check**:\n   - Verify compliance with:\n     - Naming conventions and code style consistency.\n     - Completeness of documentation throughout the code.\n     - Adequate test coverage and quality of tests.\n\n\n5. **Architecture Compliance Review**:\n   - Verify API routes exist only under app/api/**/route.ts\n   - Verify each route handler:\n     - contains no business logic (Controller-only)\n     - delegates to src/server/services/**\n     - MUST NOT directly access DB/ORM clients or call external APIs inside route.ts (delegate to services)\n   - Verify DB schema is implemented inside repo:\n     - prisma/drizzle/sql migrations 존재 및 docs/database.md(or README.md) 에 적용 방법 문서화\n   - Verify mock data exists and matches API response contracts:\n     - src/mocks/fixtures/** 존재\n     - success/error 케이스 포함\n     - contract mismatch 체크\n\n\n## Outputs\n```json\n{\n  \"reviewResult\": \"APPROVED | NEEDS_CHANGES\",\n  \"findings\": [\n    {\n      \"severity\": \"critical | high | medium | low\",\n      \"category\": \"security | performance | quality | convention | architecture\"\n      \"file\": \"path/to/file.ts\",\n      \"line\": 42,\n      \"issue\": \"Description of the issue\",\n      \"suggestion\": \"How to fix it\"\n    }\n  ],\n  \"summary\": {\n    \"criticalIssues\": 0,\n    \"highIssues\": 0,\n    \"mediumIssues\": 0,\n    \"lowIssues\": 0,\n    \"overallScore\": \"1-10\"\n  },\n  \"commendations\": [\"Good practices observed\"]\n}\n```\n\n## Validation\n1. Ensure that the input code files are present and accessible.\n2. Validate that the code follows the specified technology stack (Next.js, TypeScript, React 19, Zustand, TailwindCSS v4).\n3. Check that the test cases provided, if any, are relevant to the code changes being reviewed.\n4. Ensure presence of:\n\t•\tapp/api/**/route.ts\n\t•\tsrc/server/services/**\n\t•\tschema files (prisma/schema.prisma or drizzle/migrations)\n\t•\tmock fixtures (src/mocks/**)\n5. If missing → NEEDS_CHANGES\n\n\n\n## Error Handling\n1. If code files are missing or inaccessible:\n   - Log an error and return a message indicating the missing files.\n  \n2. If the code does not adhere to the specified technology stack:\n   - Return a message indicating the specific violations and suggest corrective actions.\n  \n3. If there are issues in the test cases (e.g., irrelevant or missing cases):\n   - Log a warning and suggest revising the test suite to align with the code changes.",
+          "parallelGroup": 0,
+          "feedbackTargetId": "backend-implementer",
+          "documents": [
+            "code-convention",
+            "project-guidelines"
+          ]
+        },
+        "dependencies": [
+          "frontend-implementer"
+        ],
+        "nextNodes": [
+          {
+            "targetId": "backend-implementer",
+            "condition": {
+              "type": "failure",
+              "checkField": "decision",
+              "description": "Retry backend-implementer on review rejection"
+            }
+          },
+          {
+            "targetId": "backend-implementer",
+            "condition": {
+              "type": "failure",
+              "checkField": "decision",
+              "description": "Retry backend-implementer on review rejection"
+            }
+          }
+        ],
+        "metadata": {
+          "label": "Code Reviewer",
+          "description": "Retry backend-implementer on review rejection"
+        }
+      }
+    ],
+    "startNode": "__implicit_orchestrator__",
+    "endNode": "__implicit_orchestrator__"
+  },
+  "instructions": "This JSON file defines an executable workflow.\n\n## Execution Algorithm\n\n1. Start from executionGraph.startNode.\n2. For each node, perform the following:\n   a. Process based on node type:\n      - agent: Call Task(node.id, prompt) (v6.4: use node.id)\n      - document: Include document content in context\n      - feedbackLoop: Handle condition checking and branching (see detailed instructions)\n   b. Store the response.\n   c. Check nextNodes:\n      - If condition exists, evaluate it.\n      - Select the edge that satisfies the condition.\n      - Move to the target node.\n3. Terminate when reaching endNode or when no more nodes to proceed.\n\n## Condition Evaluation\n\n- type: 'always' → Always select this edge\n- type: 'success' → Select if checkField value matches expectedValue\n- type: 'failure' → Select if checkField value differs from expectedValue\n\n## Logging\n\nLog the following for every node execution:\n- [START] Node ID - Node label\n- [COMPLETED] Node ID - Execution result\n- [ERROR] Node ID - Error message (on failure)"
+}

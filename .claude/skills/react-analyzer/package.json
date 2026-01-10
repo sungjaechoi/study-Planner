@@ -1,0 +1,9 @@
+{
+  "name": "react-analyzer",
+  "version": "1.0.0",
+  "description": "Symbol usage analyzer for React/Next.js codebases",
+  "type": "module",
+  "dependencies": {
+    "ts-morph": "^24.0.0"
+  }
+}

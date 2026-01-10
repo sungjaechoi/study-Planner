@@ -1,0 +1,98 @@
+{
+  "name": "Structured Development: fullstack",
+  "commandName": "study-planner-workflow",
+  "description": "9단계 AI Agent 기반 코드 작성 프로세스 - Please create a workflow that analyzes user requirements, performs backend tasks, validates them, then does frontend tasks, validates those, performs integration validation, and finishes.",
+  "version": "1.0.0",
+  "created": "2026-01-10T12:14:02.668Z",
+  "updated": "2026-01-10T13:44:56.552Z",
+  "orchestrator": {
+    "id": "__implicit_orchestrator__",
+    "displayName": "__implicit_orchestrator__"
+  },
+  "agents": [
+    {
+      "id": "__implicit_orchestrator__",
+      "displayName": "__implicit_orchestrator__",
+      "description": "Orchestrator that coordinates the Structured Development: fullstack workflow. Worker agents: requirements-analyst, architect, backend-implementer, frontend-implementer, code-reviewer",
+      "role": "orchestrator",
+      "model": "sonnet",
+      "tools": [
+        "Task",
+        "Read",
+        "Write",
+        "Grep",
+        "Glob"
+      ]
+    },
+    {
+      "id": "requirements-analyst",
+      "displayName": "Requirements Analyst",
+      "description": "Requirements Analyst: 요구사항 분석 및 스펙 문서 작성",
+      "role": "specialist",
+      "model": "opus",
+      "tools": [
+        "Read",
+        "Glob",
+        "Grep",
+        "WebSearch"
+      ]
+    },
+    {
+      "id": "architect",
+      "displayName": "Architect",
+      "description": "Architect: 아키텍처 설계 및 설계 문서 작성",
+      "role": "specialist",
+      "model": "opus",
+      "tools": [
+        "Read",
+        "Glob",
+        "Grep",
+        "WebSearch"
+      ]
+    },
+    {
+      "id": "backend-implementer",
+      "displayName": "Backend Implementer",
+      "description": "Backend Implementer: 백엔드 코드 및 API 구현",
+      "role": "specialist",
+      "model": "sonnet",
+      "tools": [
+        "Read",
+        "Glob",
+        "Grep"
+      ]
+    },
+    {
+      "id": "frontend-implementer",
+      "displayName": "Frontend Implementer",
+      "description": "Frontend Implementer: 프론트엔드 코드 및 UI 구현",
+      "role": "specialist",
+      "model": "sonnet",
+      "tools": [
+        "Read",
+        "Glob",
+        "Grep"
+      ]
+    },
+    {
+      "id": "code-reviewer",
+      "displayName": "Code Reviewer",
+      "description": "Code Reviewer: 코드 품질 및 보안 검토",
+      "role": "specialist",
+      "model": "opus",
+      "tools": [
+        "Read",
+        "Glob",
+        "Grep"
+      ]
+    }
+  ],
+  "nodeCount": {
+    "total": 11,
+    "agents": 6,
+    "documents": 5
+  },
+  "features": {
+    "documentReferences": true
+  }
+}
