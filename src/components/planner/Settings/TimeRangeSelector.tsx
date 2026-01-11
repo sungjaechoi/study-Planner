@@ -33,19 +33,31 @@ export function TimeRangeSelector({
   };
 
   return (
-    <div className="space-y-2">
-      <label className="block text-sm font-medium text-gray-700">{label}</label>
-      <select
-        value={currentHour}
-        onChange={handleChange}
-        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-black placeholder:text-gray-300"
-      >
-        {hours.map((hour) => (
-          <option key={hour} value={hour}>
-            {formatHour(hour)}
-          </option>
-        ))}
-      </select>
+    <div className="space-y-1.5">
+      <label className="block text-sm font-semibold text-stone-700">{label}</label>
+      <div className="relative">
+        <select
+          value={currentHour}
+          onChange={handleChange}
+          className="
+            w-full px-4 py-2.5 border rounded-xl appearance-none
+            text-stone-800 bg-stone-50/50 border-stone-200
+            focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 focus:bg-white
+            transition-all duration-200
+          "
+        >
+          {hours.map((hour) => (
+            <option key={hour} value={hour}>
+              {formatHour(hour)}
+            </option>
+          ))}
+        </select>
+        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+          <svg className="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+      </div>
     </div>
   );
 }

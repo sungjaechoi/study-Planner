@@ -1,6 +1,6 @@
 'use client';
 
-import { PIXELS_PER_MINUTE, BLOCK_COLORS } from '@/lib/constants';
+import { PIXELS_PER_MINUTE } from '@/lib/constants';
 import { useDragBlock } from '@/hooks/useDragBlock';
 import type { BlockType } from '@/types';
 
@@ -21,6 +21,21 @@ interface TimeBlockProps {
   onDragEnd: (blockId: string, newStartMin: number, newEndMin: number) => Promise<void>;
 }
 
+const BLOCK_STYLES = {
+  PLAN: {
+    gradient: 'from-indigo-500/90 to-indigo-600/90',
+    shadow: 'shadow-indigo-500/20',
+    hoverShadow: 'hover:shadow-indigo-500/30',
+    ring: 'ring-indigo-400/50',
+  },
+  EXECUTION: {
+    gradient: 'from-teal-500/90 to-emerald-600/90',
+    shadow: 'shadow-teal-500/20',
+    hoverShadow: 'hover:shadow-teal-500/30',
+    ring: 'ring-teal-400/50',
+  },
+};
+
 export function TimeBlock({
   id,
   type,
@@ -37,7 +52,6 @@ export function TimeBlock({
   onClick,
   onDragEnd,
 }: TimeBlockProps) {
-  // All blocks are draggable
   const isDraggable = true;
 
   const {
@@ -59,19 +73,17 @@ export function TimeBlock({
 
   const top = (startMin - dayStartMin) * PIXELS_PER_MINUTE;
   const height = (endMin - startMin) * PIXELS_PER_MINUTE;
-  const width = `${100 / laneCount}%`;
-  const left = `${(laneIndex / laneCount) * 100}%`;
+  const width = `calc(${100 / laneCount}% - 4px)`;
+  const left = `calc(${(laneIndex / laneCount) * 100}% + 2px)`;
 
-  const colors = BLOCK_COLORS[type];
-  const minHeight = 20;
+  const styles = BLOCK_STYLES[type];
+  const minHeight = 24;
   const displayHeight = Math.max(height, minHeight);
 
-  // Determine text display based on height
-  const showNote = height >= 45;
-  const showTitle = height >= 25;
+  const showNote = height >= 50;
+  const showTitle = height >= 28;
 
   const handleClick = () => {
-    // Prevent click after drag
     if (wasDragging) {
       clearWasDragging();
       return;
@@ -80,6 +92,11 @@ export function TimeBlock({
       onClick();
     }
   };
+
+  // Custom gradient if subject color is provided
+  const customStyle = subjectColor ? {
+    background: `linear-gradient(135deg, ${subjectColor}e6, ${subjectColor}cc)`,
+  } : {};
 
   return (
     <div
@@ -93,14 +110,13 @@ export function TimeBlock({
         }
       }}
       className={`
-        absolute rounded-md border-l-4 p-1 overflow-hidden
-        ${colors.bg} ${colors.text}
-        transition-shadow select-none
-        text-left
-        hover:shadow-md
+        absolute rounded-xl overflow-hidden
+        select-none text-left
+        transition-all duration-200 ease-out
+        ${!subjectColor ? `bg-gradient-to-br ${styles.gradient}` : ''}
         ${isDragging
-          ? 'opacity-80 shadow-lg z-50 cursor-grabbing'
-          : isDraggable ? 'cursor-grab' : 'cursor-pointer'
+          ? `opacity-95 shadow-2xl z-50 cursor-grabbing scale-[1.02] ring-2 ${styles.ring}`
+          : `shadow-lg ${styles.shadow} ${styles.hoverShadow} hover:scale-[1.01] cursor-grab`
         }
       `}
       style={{
@@ -108,20 +124,36 @@ export function TimeBlock({
         height: displayHeight,
         width,
         left,
-        borderLeftColor: subjectColor || (type === 'PLAN' ? '#3B82F6' : '#10B981'),
         transform: isDragging ? `translateY(${dragOffsetY}px)` : undefined,
         willChange: isDragging ? 'transform' : undefined,
+        ...customStyle,
       }}
     >
-      {showTitle && (
-        <div className="text-xs font-medium truncate">{title}</div>
-      )}
-      {showNote && note && (
-        <div className="text-xs text-gray-600 truncate">{note}</div>
-      )}
-      {!showTitle && (
-        <div className="text-xs font-medium truncate">{title.slice(0, 10)}</div>
-      )}
+      {/* Glass overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
+
+      {/* Content */}
+      <div className="relative h-full px-2.5 py-1.5 flex flex-col justify-center">
+        {showTitle ? (
+          <>
+            <div className="text-xs font-semibold text-white truncate leading-tight drop-shadow-sm">
+              {title}
+            </div>
+            {showNote && note && (
+              <div className="text-[10px] text-white/70 truncate mt-0.5 leading-tight">
+                {note}
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="text-[10px] font-semibold text-white truncate leading-tight drop-shadow-sm">
+            {title}
+          </div>
+        )}
+      </div>
+
+      {/* Bottom shine */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
     </div>
   );
 }

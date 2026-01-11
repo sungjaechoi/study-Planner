@@ -12,7 +12,6 @@ export function TimeGrid({ dayStartMin, dayEndMin }: TimeGridProps) {
   const totalHours = totalMinutes / 60;
   const gridLines: number[] = [];
 
-  // 15-minute grid lines
   for (let m = 0; m <= totalMinutes; m += GRID_MINUTES) {
     gridLines.push(m);
   }
@@ -24,12 +23,19 @@ export function TimeGrid({ dayStartMin, dayEndMin }: TimeGridProps) {
     >
       {gridLines.map((minutes) => {
         const isHourLine = minutes % 60 === 0;
+        const isHalfHourLine = minutes % 30 === 0 && !isHourLine;
         const top = (minutes / 60) * HOUR_HEIGHT;
 
         return (
           <div
             key={minutes}
-            className={`absolute left-0 right-0 ${isHourLine ? 'border-t border-gray-300' : 'border-t border-gray-100'}`}
+            className={`absolute left-0 right-0 border-t ${
+              isHourLine
+                ? 'border-stone-200'
+                : isHalfHourLine
+                ? 'border-stone-100'
+                : 'border-stone-50'
+            }`}
             style={{ top }}
           />
         );
