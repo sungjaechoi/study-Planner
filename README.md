@@ -1,148 +1,135 @@
-# Structured Development: fullstack
+# Study Planner
 
-> 9단계 AI Agent 기반 코드 작성 프로세스 - Please create a workflow that analyzes user requirements, performs backend tasks, validates them, then does frontend tasks, validates those, performs integration validation, and finishes.
+> 계획과 실행을 한눈에 비교하며 관리하는 스터디 플래너
 
-## 🚀 Quick Start (3 steps)
+## Overview
 
-1. **압축 해제**
-   ```bash
-   unzip study-planner-workflow-workflow.zip
-   cd study-planner-workflow
-   ```
+Study Planner는 하루의 학습 계획과 실제 실행을 시각적으로 비교할 수 있는 타임라인 기반 플래너입니다. 계획한 시간과 실제 수행한 시간을 나란히 배치하여 학습 효율을 분석하고 개선할 수 있습니다.
 
-2. **초기화 스크립트 실행** (선택사항)
-   ```bash
-   chmod +x install.sh
-   ./install.sh
-   ```
+## Features
 
-3. **Claude Code에서 실행**
+- **듀얼 타임라인** - 계획(Plan)과 실행(Execution)을 나란히 배치하여 비교
+- **드래그 앤 드롭** - 블록을 드래그하여 시간 조정
+- **과목 관리** - 과목별 색상 지정으로 시각적 구분
+- **달성률 표시** - 계획 대비 실행 시간 자동 계산
+- **플래너 설정** - 하루 시작/종료 시간, 그리드 간격(15/30/60분) 커스터마이징
+- **날짜 이동** - 이전/다음 날, 오늘로 빠른 이동
 
-   Claude Code를 열고 다음과 같이 실행하세요:
+## Tech Stack
 
-   ```bash
-   /study-planner-workflow "작업 설명"
-   ```
+| Category | Technology |
+|----------|------------|
+| Framework | Next.js 16.1 (App Router) |
+| Language | TypeScript |
+| UI | React 19, Tailwind CSS 4 |
+| State | Zustand 5 |
+| Database | SQLite + Prisma ORM |
+| Validation | Zod |
 
-## 💡 사용 방법 및 예제
+## Getting Started
 
-### 기본 사용법
+### Prerequisites
 
-Claude Code CLI에서 슬래시 커맨드로 워크플로우를 실행합니다:
+- Node.js 18+
 
-```bash
-/study-planner-workflow "여기에 원하는 작업을 자세히 설명하세요"
-```
-
-### 📝 실제 사용 예제
-
-**예제 1: 간단한 요청**
-```bash
-/study-planner-workflow "사용자 로그인 기능을 구현해주세요"
-```
-
-**예제 2: 상세한 요청**
-```bash
-/study-planner-workflow "이메일과 비밀번호로 로그인하는 API를 만들어주세요. JWT 토큰을 발급하고, 비밀번호는 bcrypt로 해싱해야 합니다."
-```
-
-**예제 3: 복잡한 작업**
-```bash
-/study-planner-workflow "쇼핑몰 장바구니 기능 전체를 구현해주세요. 상품 추가, 삭제, 수량 변경, 총 금액 계산이 필요합니다."
-```
-
-### 🎯 효과적인 요청 작성 팁
-
-1. **구체적으로 작성하세요**
-   - ❌ "회원가입 만들어줘"
-   - ✅ "이메일 중복 체크를 포함한 회원가입 API와 프론트엔드 폼을 만들어주세요"
-
-2. **필요한 기술 스택을 명시하세요**
-   - "React와 TypeScript로 대시보드를 만들어주세요"
-   - "PostgreSQL을 사용하는 REST API를 구현해주세요"
-
-3. **제약사항이 있다면 함께 알려주세요**
-   - "모바일에서도 잘 보이도록 반응형으로 만들어주세요"
-   - "페이지네이션은 커서 기반으로 구현해주세요"
-
-### 🔄 실행 흐름
-
-1. **명령어 입력**: Claude Code에서 `/study-planner-workflow` 실행
-2. **작업 분석**: 오케스트레이터가 요청 분석
-3. **에이전트 실행**: 필요한 에이전트들이 순차/병렬로 작업 수행
-4. **결과 확인**: 생성된 코드와 파일 확인
-
-### 📊 진행 상황 모니터링
-
-실행 중 로그를 확인하려면:
+### Installation
 
 ```bash
-# 실시간 로그 확인
-tail -f .claude.config/study-planner-workflow/docs/workflow-execution.log
+# 1. 의존성 설치
+npm install
 
-# 전체 로그 보기
-cat .claude.config/study-planner-workflow/docs/workflow-execution.log
+# 2. 환경 변수 설정
+cp .env.example .env
+
+# 3. 개발 서버 실행
+npm run dev
 ```
 
-## 📋 포함된 에이전트 (6개)
+브라우저에서 [http://localhost:3000](http://localhost:3000) 접속
 
-- **@__implicit_orchestrator__** 🎯 **Orchestrator**: Orchestrator that coordinates the Structured Development: fullstack workflow. Worker agents: requirements-analyst, architect, backend-implementer, frontend-implementer, code-reviewer
-- **@requirements-analyst** : Requirements Analyst: 요구사항 분석 및 스펙 문서 작성
-- **@architect** : Architect: 아키텍처 설계 및 설계 문서 작성
-- **@backend-implementer** : Backend Implementer: 백엔드 코드 및 API 구현
-- **@frontend-implementer** : Frontend Implementer: 프론트엔드 코드 및 UI 구현
-- **@code-reviewer** : Code Reviewer: 코드 품질 및 보안 검토
+> **Note**: 데이터베이스(SQLite)는 저장소에 포함되어 있습니다. 초기화가 필요하면 `npm run db:push`를 실행하세요.
 
-## 📁 프로젝트 구조
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | 개발 서버 실행 |
+| `npm run build` | 프로덕션 빌드 |
+| `npm run start` | 프로덕션 서버 실행 |
+| `npm run db:push` | 스키마를 DB에 적용 |
+| `npm run db:studio` | Prisma Studio 실행 |
+| `npm run db:seed` | 시드 데이터 생성 |
+
+## Project Structure
 
 ```
-study-planner-workflow/
-├── README.md (이 파일)
-├── QUICKSTART.md
-├── install.sh
-├── .claude/
-│   ├── commands/study-planner-workflow.md
-│   ├── agents/
-│   └── CLAUDE.md
-└── claude.config/
-    └── study-planner-workflow/
-        ├── docs/
-        │   ├── ORCHESTRATOR.md
-        │   ├── ARCHITECTURE.md
-        │   ├── USAGE.md
-        │   └── workflow-execution.log
-        ├── devcontainer/ (선택적)
-        ├── scripts/
-        ├── workflow-metadata.json
-        └── workflow-runtime.json (FeedbackLoop 사용 시)
+src/
+├── app/                    # Next.js App Router
+│   ├── api/               # API Routes
+│   │   ├── blocks/        # 블록 CRUD
+│   │   ├── subjects/      # 과목 CRUD
+│   │   ├── settings/      # 설정 API
+│   │   └── planner/       # 플래너 데이터
+│   ├── layout.tsx         # 루트 레이아웃
+│   └── page.tsx           # 메인 페이지
+├── components/
+│   ├── planner/           # 플래너 컴포넌트
+│   │   ├── Timeline/      # 타임라인 관련
+│   │   ├── DateNav/       # 날짜 네비게이션
+│   │   ├── Summary/       # 요약 통계
+│   │   ├── BlockForm/     # 블록 폼 모달
+│   │   └── Settings/      # 설정 모달
+│   └── ui/                # 공통 UI 컴포넌트
+├── hooks/                 # 커스텀 훅
+├── lib/                   # 유틸리티
+│   ├── api.ts            # API 클라이언트
+│   ├── constants.ts      # 상수
+│   └── utils/            # 유틸 함수
+├── stores/               # Zustand 스토어
+└── types/                # TypeScript 타입
 ```
 
-## 📚 자세한 문서
+## API Endpoints
 
-- **[QUICKSTART.md](./QUICKSTART.md)**: 빠른 시작 가이드
-- **[ORCHESTRATOR.md](.claude.config/study-planner-workflow/docs/ORCHESTRATOR.md)**: 오케스트레이터 설명
-- **[USAGE.md](.claude.config/study-planner-workflow/docs/USAGE.md)**: 사용법 가이드
-- **[ARCHITECTURE.md](.claude.config/study-planner-workflow/docs/ARCHITECTURE.md)**: 아키텍처 문서
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/planner/day?date=YYYY-MM-DD` | 특정 날짜 플래너 데이터 |
+| GET | `/api/planner/summary?date=YYYY-MM-DD` | 일일 요약 통계 |
+| GET/POST | `/api/blocks` | 블록 조회/생성 |
+| GET/PUT/DELETE | `/api/blocks/[id]` | 블록 상세/수정/삭제 |
+| GET/PUT | `/api/settings` | 설정 조회/수정 |
+| GET/POST | `/api/subjects` | 과목 조회/생성 |
 
-## ⚙️ 요구사항
+## Screenshots
 
-- Claude Code CLI
-- Node.js 18+ (선택사항, devcontainer 사용 시)
+### 메인 화면
+- 상단: 날짜 네비게이션 (보라색 그라데이션 헤더)
+- 중앙: 일일 요약 (계획/실행 시간, 달성률)
+- 하단: 듀얼 타임라인 (계획 | 실행)
 
-## 🐛 문제 해결
+### 블록 편집
+- 제목, 메모, 과목 선택
+- 시작/종료 시간 설정
+- 종일 일정 옵션
 
-문제가 발생하면 다음을 확인하세요:
+### 설정
+- 하루 시작/종료 시간
+- 그리드 간격 선택 (15분/30분/60분)
 
-1. Claude Code가 올바르게 설치되었는지 확인
-2. `.claude` 디렉토리가 올바른 위치에 있는지 확인
-3. `./validate.sh`를 실행하여 구조 검증
+## Design
 
-## 📝 라이선스
+**Refined Minimalism with Soft Depth** 디자인 컨셉 적용:
+- Stone 컬러 팔레트 (중립적인 배경)
+- Indigo 주 색상 (계획)
+- Teal 보조 색상 (실행)
+- 부드러운 그라데이션과 그림자
+- 둥근 모서리 (rounded-xl, rounded-2xl)
+- 백드롭 블러 효과
 
-이 워크플로우는 ./claude로 생성되었습니다.
+## License
+
+MIT License
 
 ---
 
-**생성 정보**
-- 워크플로우 버전: 1.0.0
-- 생성 일시: 2026. 1. 10. 오후 9:14:02
+Built with Next.js and Prisma
