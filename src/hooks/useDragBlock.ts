@@ -17,11 +17,15 @@ interface UseDragBlockProps {
 interface DragState {
   isDragging: boolean;
   wasDragging: boolean;
+  didMove: boolean;  // 실제로 드래그가 발생했는지
   startY: number;
   currentStartMin: number;
   currentEndMin: number;
   dragOffsetY: number;
 }
+
+// 드래그로 인식할 최소 이동 거리 (픽셀)
+const DRAG_THRESHOLD = 5;
 
 export function useDragBlock({
   blockId,
@@ -36,6 +40,7 @@ export function useDragBlock({
   const [dragState, setDragState] = useState<DragState>({
     isDragging: false,
     wasDragging: false,
+    didMove: false,
     startY: 0,
     currentStartMin: initialStartMin,
     currentEndMin: initialEndMin,
@@ -57,6 +62,7 @@ export function useDragBlock({
         currentStartMin: initialStartMin,
         currentEndMin: initialEndMin,
         wasDragging: false,
+        didMove: false,
       }));
     }
   }, [initialStartMin, initialEndMin]);
@@ -76,6 +82,7 @@ export function useDragBlock({
     setDragState({
       isDragging: true,
       wasDragging: false,
+      didMove: false,
       startY: e.clientY,
       currentStartMin: initialValuesRef.current.startMin,
       currentEndMin: initialValuesRef.current.endMin,
@@ -90,6 +97,9 @@ export function useDragBlock({
     const deltaY = e.clientY - dragRef.current.startY;
     const duration = initialValuesRef.current.endMin - initialValuesRef.current.startMin;
 
+    // 임계값 이상 움직여야 드래그로 인식
+    const didMove = Math.abs(deltaY) >= DRAG_THRESHOLD;
+
     // Calculate bounds in pixels
     const minOffset = (dayStartMin - initialValuesRef.current.startMin) * PIXELS_PER_MINUTE;
     const maxOffset = (dayEndMin - duration - initialValuesRef.current.startMin) * PIXELS_PER_MINUTE;
@@ -99,6 +109,7 @@ export function useDragBlock({
 
     setDragState(prev => ({
       ...prev,
+      didMove: prev.didMove || didMove,
       dragOffsetY: clampedOffset,
     }));
   }, [dayStartMin, dayEndMin]);
@@ -107,7 +118,7 @@ export function useDragBlock({
   const handleMouseUp = useCallback(async () => {
     if (!dragRef.current.isDragging) return;
 
-    const { dragOffsetY } = dragRef.current;
+    const { dragOffsetY, didMove } = dragRef.current;
     const { startMin: origStart, endMin: origEnd } = initialValuesRef.current;
     const duration = origEnd - origStart;
 
@@ -120,14 +131,15 @@ export function useDragBlock({
     setDragState(prev => ({
       ...prev,
       isDragging: false,
-      wasDragging: true,
+      wasDragging: didMove,  // 실제로 움직였을 때만 true
+      didMove: false,
       dragOffsetY: 0,
       currentStartMin: snappedStartMin,
       currentEndMin: snappedEndMin,
     }));
 
-    // Only call API if time actually changed
-    if (snappedStartMin !== origStart || snappedEndMin !== origEnd) {
+    // Only call API if time actually changed AND actually dragged
+    if (didMove && (snappedStartMin !== origStart || snappedEndMin !== origEnd)) {
       try {
         await onDragEnd(blockId, snappedStartMin, snappedEndMin);
       } catch {
@@ -155,7 +167,7 @@ export function useDragBlock({
   }, [dragState.isDragging, handleMouseMove, handleMouseUp]);
 
   const clearWasDragging = useCallback(() => {
-    setDragState(prev => ({ ...prev, wasDragging: false }));
+    setDragState(prev => ({ ...prev, wasDragging: false, didMove: false }));
   }, []);
 
   return {

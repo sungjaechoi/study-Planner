@@ -5,7 +5,7 @@ export const createBlockSchema = z.object({
   type: z.enum(['PLAN', 'EXECUTION']),
   title: z.string().min(1, '제목을 입력해주세요').max(200, '제목은 200자 이내로 입력해주세요'),
   note: z.string().max(1000, '메모는 1000자 이내로 입력해주세요').optional(),
-  subject_id: z.string().uuid('올바른 과목을 선택해주세요').optional(),
+  subject_id: z.string().min(1, '올바른 과목을 선택해주세요').optional(),
   is_all_day: z.boolean(),
   start_min: z.number().int().min(0).max(1440).optional(),
   end_min: z.number().int().min(0).max(1440).optional(),
@@ -30,7 +30,7 @@ export const createBlockSchema = z.object({
 export const updateBlockSchema = z.object({
   title: z.string().min(1).max(200).optional(),
   note: z.string().max(1000).nullable().optional(),
-  subject_id: z.string().uuid().nullable().optional(),
+  subject_id: z.string().min(1).nullable().optional(),
   is_all_day: z.boolean().optional(),
   start_min: z.number().int().min(0).max(1440).nullable().optional(),
   end_min: z.number().int().min(0).max(1440).nullable().optional(),
